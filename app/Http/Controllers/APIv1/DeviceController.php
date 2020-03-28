@@ -100,7 +100,7 @@ class DeviceController extends Controller
 
         $mobile = Mobile::where('imei', $validatedData['imei'])->first();
 
-        $port = Port::where('imei', $validatedData['port'])->first();
+        $port = Port::where('port', $validatedData['port'])->first();
 
         $live = Live::where(['device_id' => $device->id, 'mobile_id' => $mobile->id, 'port_id' => $port->id])->first();
 

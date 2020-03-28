@@ -6,15 +6,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mobile extends Model
 {
-    protected $guarded = [];
+	protected $fillable = [
+		'imei',
+		'user_id',
+		'status',
+		'created_by',
+		'modified_by'
+	];
 
-    public function owner()
-    {
-        return $this->belongsTo('App\User', 'user_id');
-    }
+	protected $guarded = [];
 
-    public function lives()
-    {
-        return $this->hasMany('App\Models\Live');
-    }
+	public function owner()
+	{
+		return $this->belongsTo('App\User', 'user_id');
+	}
+
+	public function lives()
+	{
+		return $this->hasMany('App\Models\Live');
+	}
 }

@@ -151,8 +151,7 @@ class UserController extends Controller
 	}
 
 	public function addDevice(Request $request)
-	{
-
+	{		
 		$validatedData = $request->validate([			
 			'espId'   => 'bail|required|string|max:100|exists:devices',
 		]);

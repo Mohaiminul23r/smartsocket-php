@@ -6,20 +6,29 @@ use Illuminate\Database\Eloquent\Model;
 
 class Live extends Model
 {
-    protected $guarded = [];
+	protected $fillable = [
+		'device_id',
+		'mobile_id',
+		'port_id',
+		'status',
+		'created_by',
+		'modified_by'
+	];
 
-    public function device()
-    {
-        return $this->belongsTo('App\Models\Device');
-    }
+	protected $guarded = [];
 
-    public function mobile()
-    {
-        return $this->belongsTo('App\Models\Mobile');
-    }
+	public function device()
+	{
+		return $this->belongsTo('App\Models\Device');
+	}
 
-    public function port()
-    {
-        return $this->belongsTo('App\Models\Port');
-    }
+	public function mobile()
+	{
+		return $this->belongsTo('App\Models\Mobile');
+	}
+
+	public function port()
+	{
+		return $this->belongsTo('App\Models\Port');
+	}
 }

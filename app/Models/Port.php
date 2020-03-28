@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Port extends Model
 {
+    protected $fillable = [
+		'name',
+		'description',
+		'created_by',
+		'modified_by'
+	];
+	
     protected $guarded = [];
 
     public function devices()
