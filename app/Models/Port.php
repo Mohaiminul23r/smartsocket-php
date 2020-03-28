@@ -12,6 +12,8 @@ class Port extends Model
 		'created_by',
 		'modified_by'
 	];
+
+    protected $hidden = ['pivot'];
 	
     protected $guarded = [];
 

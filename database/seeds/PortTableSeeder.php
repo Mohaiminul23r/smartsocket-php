@@ -17,13 +17,13 @@ class PortTableSeeder extends Seeder
 		Port::insert([
 			[
 				'id' => 1,
-				'name' => 'USB Port',
+				'name' => 'USB_Port',
 				'description' => '',
 				'created_by' => $user->id
 			],
 			[
 				'id' => 2,
-				'name' => 'AC Port',
+				'name' => 'AC_Port',
 				'description' => '',				
 				'created_by' => $user->id
 			],

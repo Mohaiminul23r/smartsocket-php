@@ -29,9 +29,13 @@ Route::prefix('v1')->namespace('APIv1')->group(function () {
 		Route::put('profile-update', 'UserController@update')->name('profileUpdate');
 		Route::put('change-password', 'UserController@changePassword')->name('changePassword');
 		Route::put('change-profile-pic', 'UserController@changeProfilePic')->name('changeProfilePic');
-		Route::post('user-device-add', 'UserController@addDevice')->name('addDevice');
-		Route::delete('user-device-remove', 'UserController@removeDevice')->name('removeDevice');
-		Route::post('device-state', 'DeviceController@updateState')->name('updateState');
+		Route::get('user-device', 'UserController@getDevice')->name('getDevice');
+		Route::post('user-device', 'UserController@addDevice')->name('addDevice');
+		Route::delete('user-device', 'UserController@removeDevice')->name('removeDevice');
+		Route::get('user-mobile', 'UserController@getMobile')->name('getMobile');
+		Route::post('user-mobile', 'UserController@addMobile')->name('addMobile');
+		Route::delete('user-mobile', 'UserController@removeMobile')->name('removeMobile');
+		Route::put('device-state', 'DeviceController@updateState')->name('updateState');
 		Route::get('device-state', 'DeviceController@state')->name('state');
 	});
 });

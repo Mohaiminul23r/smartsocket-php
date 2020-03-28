@@ -15,6 +15,8 @@ class Device extends Model
 		'modified_by'
 	];
 
+	protected $hidden = ['pivot'];
+
 	protected $guarded = [];
 
 	public function type()

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Http\Requests\StoreUser;
 use App\Models\Device;
+use App\Models\Mobile;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use File as LaraFile;
@@ -83,7 +84,7 @@ class UserController extends Controller
 			'city'     => 'bail|nullable|string|max:50',
 			'country'  => 'bail|nullable|string|max:50'
 		]);
-		
+
 		$user = User::where('id', $request->user()->id)->update([
 			'name'     => $validated['name'],
 			'email'    => $validated['email'],
@@ -165,6 +166,15 @@ class UserController extends Controller
 	
 	}
 
+	public function getDevice(Request $request)
+	{		
+		$user = $request->user();
+		$devices = $user->devices()->with('type','ports')->get();
+
+		return $this->sendJson(200, true, config('rest.response.success.code'), $devices, 'success');
+	
+	}
+
 	public function removeDevice(Request $request)
 	{
 		$validatedData =  $request->validate([			
@@ -175,6 +185,47 @@ class UserController extends Controller
 		$device = Device::where('espId', $validatedData['espId'])->first();
 
 		$user->devices()->detach($device);
+
+		return $this->sendJson(201, true, config('rest.response.remove.code'), config('rest.response.remove.message'), 'success');
+	}
+
+	public function addMobile(Request $request)
+	{		
+		$validatedData = $request->validate([			
+			'imei'    => 'bail|required|string|max:50|unique:mobiles',
+		]);
+
+		$user = $request->user();
+		$mobile = Mobile::create([
+			'user_id' => $request->user()->id, 
+			'imei' => $validatedData['imei'], 
+			'status' => 1,
+			'created_by' => $request->user()->id
+		]);	
+
+		return $this->sendJson(201, true, config('rest.response.add.code'), $mobile, 'success');
+	
+	}
+
+	public function getMobile(Request $request)
+	{
+		$user = $request->user();
+		$mobiles = $user->mobiles;
+
+		return $this->sendJson(200, true, config('rest.response.success.code'), $mobiles, 'success');
+	
+	}
+
+	public function removeMobile(Request $request)
+	{
+		$validatedData =  $request->validate([			
+			'imei'    => 'bail|required|string|max:50|exists:mobiles',
+		]);
+
+		$user = $request->user();
+		$device = Mobile::where('imei', $validatedData['imei'])->first();
+
+		$device->delete();
 
 		return $this->sendJson(201, true, config('rest.response.remove.code'), config('rest.response.remove.message'), 'success');
 	}
