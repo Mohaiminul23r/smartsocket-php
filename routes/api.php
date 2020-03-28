@@ -18,11 +18,8 @@ Route::prefix('v1')->namespace('APIv1')->group(function () {
 
 	Route::post('register', 'UserController@register');
 	Route::post('login', 'UserController@login');
-
+	
 	Route::middleware(['auth:api','verified'])->group(function () {
-		Route::get('me', function (Request $request) {
-			return $request->user();
-		});
 
 		Route::get('user', function (Request $request) {
 		    return App\User::all();

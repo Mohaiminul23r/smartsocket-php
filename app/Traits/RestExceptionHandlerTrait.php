@@ -38,14 +38,14 @@ trait RestExceptionHandlerTrait
 		} else {
 			$statusCode = 500;
 		}
-	
+		
 		$response = [];
 		switch ($statusCode) {
 			case 401:
 				$response['payload'] = 'Unauthorized';
 				break;
 			case 403:
-				$response['payload'] = 'Forbidden';
+				$response['payload'] = ((method_exists($exception, 'getMessage'))? $exception->getMessage() : 'Forbidden or Not verified');
 				break;
 			case 404:
 				$response['payload'] = 'Not Found';
@@ -67,10 +67,9 @@ trait RestExceptionHandlerTrait
 			$response['payload'] = $this->getMessage($exception);
 		}
 	
-		if (config('app.debug') && $statusCode != 422) {
-			// $response['trace'] = $exception->getTrace();			
-			if(property_exists($exception,'line'))
-				$response['line'] = $exception->getLine();
+		if (config('app.debug') && property_exists($exception,'line') && !in_array($statusCode, [401,403,404,405,422])) {
+			$response['trace'] = $exception->getTrace();			
+			$response['line'] = $exception->getLine();
 			$response['payload'] = ((method_exists($exception, 'getMessage'))? $exception->getMessage() : 'Unknown error');
 			$response['code'] = ((method_exists($exception, 'getCode'))? $exception->getCode() : 'Unknown code');
 		}

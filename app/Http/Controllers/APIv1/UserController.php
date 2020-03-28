@@ -41,7 +41,7 @@ class UserController extends Controller
 		$validated  = $request->validate([			
 			'email'    => 'bail|required|string|email|max:255',
 			'password' => 'bail|required|string|min:6',
-		]);		
+		]);
 
 		if (Auth::attempt(['email' => $validated['email'], 'password' => $validated['password']])) {
 			$user = Auth::user();
@@ -61,12 +61,10 @@ class UserController extends Controller
 
 	public function profile(Request $request)
 	{
-		$user = User::find($request->input('user_id'))->first();
-
-		return $this->sendJson(200, true, config('rest.response.success.code'), $user, 'success');
+		return $this->sendJson(200, true, config('rest.response.success.code'), $request->user(), 'success');
 	}
 
-	public function update(User $user, Request $request)
+	public function update(Request $request)
 	{
 		$validated     = $request->validate([
 			'name'     => 'bail|nullable|string|max:255',
@@ -75,14 +73,14 @@ class UserController extends Controller
 						   'string', 
 						   'email', 
 						   'max:255', 
-						   Rule::unique('users')->ignore($request->user->id)
+						   Rule::unique('users')->ignore($request->user()->id)
 						],
 			'phone'    => 'bail|nullable|string|max:50',
 			'city'     => 'bail|nullable|string|max:50',
 			'country'  => 'bail|nullable|string|max:50'
 		]);
 
-		$user = User::where('id', $user->id)->update([
+		$user = User::where('id', $request->user()->id)->update([
 			'name'     => $validated['name'],
 			'email'    => $validated['email'],
 			'phone'    => $validated['phone'],
@@ -94,9 +92,9 @@ class UserController extends Controller
 	
 	}
 
-	public function changePassword(User $user, Request $request)
+	public function changePassword(Request $request)
 	{
-
+		$user = $request->user();
 		$validator = Validator::make($request->all(), [
 			'password'        => 'bail|required|string|min:6|confirmed',
 			'currentPassword' => 'bail|required|string|min:6',
@@ -119,9 +117,9 @@ class UserController extends Controller
 	
 	}
 
-	public function changeProfilePic(User $user, Request $request)
+	public function changeProfilePic(Request $request)
 	{
-
+		$user = $request->user();
 		$fileName = NULL;
 
 		$validated = $request->validate(['image' => 'bail|required|image|max:6000' ]);
@@ -151,12 +149,11 @@ class UserController extends Controller
 	public function addDevice(Request $request)
 	{
 
-		$validatedData = $request->validate([
-			'user_id' => 'bail|required|integer|exists:users,id',
+		$validatedData = $request->validate([			
 			'espId'   => 'bail|required|string|max:100|exists:devices',
 		]);
 
-		$user = User::find($validatedData['user_id']);
+		$user = $request->user();
 		$device = Device::where('espId', $validatedData['espId'])->first();
 
 		$user->devices()->attach($device);
@@ -167,12 +164,11 @@ class UserController extends Controller
 
 	public function removeDevice(Request $request)
 	{
-		$validatedData =  $request->validate([
-			'user_id' => 'bail|required|integer|exists:users,id',
+		$validatedData =  $request->validate([			
 			'espId'   => 'bail|required|string|max:100|exists:devices',
 		]);
 
-		$user = User::find($validatedData['user_id']);
+		$user = $request->user();
 		$device = Device::where('espId', $validatedData['espId'])->first();
 
 		$user->devices()->detach($device);
