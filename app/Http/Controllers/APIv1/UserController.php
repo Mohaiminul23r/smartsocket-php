@@ -36,9 +36,14 @@ class UserController extends Controller
 	
 	}
 
-	public function login(){
+	public function login(Request $request){
 
-		if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
+		$validated  = $request->validate([			
+			'email'    => 'bail|required|string|email|max:255',
+			'password' => 'bail|required|string|min:6',
+		]);		
+
+		if (Auth::attempt(['email' => $validated['email'], 'password' => $validated['password']])) {
 			$user = Auth::user();
 			if($user->status == 0){
 				$error = config('rest.response.login.inactive');
