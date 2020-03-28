@@ -51,7 +51,7 @@ class UserController extends Controller
 			}
 			else if($user->email_verified_at == null){
 				$error = config('rest.response.login.not_verified');
-				return $this->sendJson(402, false, $error['code'], $error['message'], 'danger');
+				return $this->sendJson(403, false, $error['code'], $error['message'], 'danger');
 			}
 			$success['accessToken'] = $user->createToken('SmartSocket')->accessToken;
 			$success['user'] = $user;
@@ -83,7 +83,7 @@ class UserController extends Controller
 			'city'     => 'bail|nullable|string|max:50',
 			'country'  => 'bail|nullable|string|max:50'
 		]);
-
+		
 		$user = User::where('id', $request->user()->id)->update([
 			'name'     => $validated['name'],
 			'email'    => $validated['email'],
