@@ -49,6 +49,10 @@ class UserController extends Controller
 				$error = config('rest.response.login.inactive');
 				return $this->sendJson(401, false, $error['code'], $error['message'], 'danger');
 			}
+			else if($user->email_verified_at == null){
+				$error = config('rest.response.login.not_verified');
+				return $this->sendJson(402, false, $error['code'], $error['message'], 'danger');
+			}
 			$success['accessToken'] = $user->createToken('SmartSocket')->accessToken;
 			$success['user'] = $user;
 			return $this->sendJson(200, true, config('rest.response.success.code'), $success, 'success');

@@ -38,11 +38,15 @@ return [
 			'inactive' => [
 				'code'    => 'L01',
 				'message' => 'User is inactive'
-			],
+			],			
 			'invalid' => [
                 'code'    => 'L02',
                 'message' => 'Wrong email or password!'
-            ],		  
+            ],
+            'not_verified' => [
+				'code'    => 'L03',
+				'message' => 'User is not verified'
+			],		  
 		],        
 	],
 
