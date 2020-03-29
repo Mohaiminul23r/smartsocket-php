@@ -24,22 +24,22 @@
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse {{($pageSlug=='sliders.index' || $pageSlug=='galleryImages.index' || $pageSlug=='newsCategories.index' || $pageSlug == 'staticPageCategories.index' || $pageSlug == 'sessions.index')?'show':'' }}"id="generalSettings">
+        <div class="collapse {{($activePage=='types.index' || $activePage=='ports.index' || $activePage=='devices.index')?'show':'' }}"id="generalSettings">
           <ul class="nav">
-            <li class="nav-item{{ $activePage == 'profile' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('profile.edit') }}">
+            <li @if ($activePage == 'types.index') class="active " @endif>
+              <a class="nav-link" href="{{ route('types.index') }}">
                 <span class="sidebar-mini"><i class="fas fa-bezier-curve"></i></span>
                 <span class="sidebar-normal">{{ __('Manage Types') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('user.index') }}">
+            <li class="nav-item{{ $activePage == 'ports.index' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('ports.index') }}">
                 <span class="sidebar-mini"><i class="fas fa-waveform-path"></i></span>
                 <span class="sidebar-normal"> {{ __('Manage Ports') }} </span>
               </a>
             </li>
-             <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('user.index') }}">
+             <li class="nav-item{{ $activePage == 'devices.index' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('devices.index') }}">
                 <span class="sidebar-mini"><i class="fas fa-game-console-handheld"></i></span>
                 <span class="sidebar-normal"> {{ __('Manage Devices') }} </span>
               </a>

@@ -52,6 +52,10 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('upgrade', function () {
 		return view('pages.upgrade');
 	})->name('upgrade');
+
+	Route::resource('types', 'TypeController');
+	Route::resource('ports', 'PortController');
+	Route::resource('devices', 'DeviceController');
 });
 
 Route::group(['middleware' => 'auth'], function () {
