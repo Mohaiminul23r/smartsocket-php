@@ -11,10 +11,14 @@ class TypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('types.index');    }
+       if ($request->wantsJson()) {
+        $type = new Type();
+        return $type->DataTableLoader($request);
 
+    }return view('types.index');
+}
     /**
      * Show the form for creating a new resource.
      *
@@ -22,7 +26,7 @@ class TypeController extends Controller
      */
     public function create()
     {
-        //
+        return view('types.create');
     }
 
     /**
