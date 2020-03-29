@@ -16,9 +16,12 @@
     <link href="{{ asset('material/css/material-dashboard.css?v=2.1.1') }}" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="{{ asset('material/demo/demo.css') }}" rel="stylesheet" />
-    {{-- fontawesome --}}
+    {{-- plugin css --}}
+    <link href="{{ asset('/css/toastr.min.css') }}" rel="stylesheet" />
     <link href="{{asset('fonts/fontawesome-pro-5.12.0-web/css/all.css')}}" rel="stylesheet" >
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/b-1.6.1/fc-3.3.0/fh-3.1.6/r-2.2.3/rg-1.1.1/sl-1.3.1/datatables.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
     </head>
     <body class="{{ $class ?? '' }}">
         @auth()
@@ -106,7 +109,6 @@
         <script src="{{ asset('material/js/plugins/bootstrap-datetimepicker.min.js') }}"></script>
         <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->{{-- 
         <script src="{{ asset('material/js/plugins/jquery.dataTables.min.js') }}"></script> --}}
-        <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/b-1.6.1/fc-3.3.0/fh-3.1.6/r-2.2.3/rg-1.1.1/sl-1.3.1/datatables.min.js"></script>
         <!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
         <script src="{{ asset('material/js/plugins/bootstrap-tagsinput.js') }}"></script>
         <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
@@ -132,6 +134,15 @@
         <!-- Material Dashboard DEMO methods, don't include it in your project! -->
         <script src="{{ asset('material/demo/demo.js') }}"></script>
         <script src="{{ asset('material/js/settings.js') }}"></script>
+
+       {{--  plugings --}}
+        <script src="{{ asset('js/toastr.min.js') }}"></script>
+        <script src="{{ asset('js/spartan-multi-image-picker-min.js') }}"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/b-1.6.1/fc-3.3.0/fh-3.1.6/r-2.2.3/rg-1.1.1/sl-1.3.1/datatables.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+        <script src="https://cdn.ckeditor.com/ckeditor5/17.0.0/classic/ckeditor.js"></script> 
          <!-- Custom Js -->
         <script src="{{ asset('js/custom.js') }}"></script>
         @stack('js')

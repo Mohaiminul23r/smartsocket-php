@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Port extends Model
 {
+    use CommonTrait;
+    protected $table = 'ports';
     protected $fillable = [
 		'name',
 		'description',
