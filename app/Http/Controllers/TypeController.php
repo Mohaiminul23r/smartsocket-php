@@ -35,17 +35,15 @@ class TypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Type $type)
+    public function store(Request $request)
     {
-        //
-    }
+     $request->validate([
+        'name' => 'required',
+        'description' => 'required',
+        ]);
+    Type::create($request->all());
+}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Type $type)
     {
         //
@@ -59,7 +57,8 @@ class TypeController extends Controller
      */
     public function edit(Type $type)
     {
-        //
+       $data['type'] = $type;
+        return view('types.edit', $data);
     }
 
     /**
@@ -70,9 +69,16 @@ class TypeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Type $type)
-    {
-        //
-    }
+    {   //dd($circular);
+    $request->validate([
+        'name' => 'required',
+        'description' => 'required',
+    ]);
+
+        $updateData = $request->all();
+        
+        $type->update($updateData);
+}
 
     /**
      * Remove the specified resource from storage.

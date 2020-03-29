@@ -55,42 +55,17 @@
                     }
                 },
                 {
-                    title: 'Title',
-                    data: "title",
-                    name: 'title'
+                    title: 'Name',
+                    data: "name",
+                    name: 'name'
                 },
                
-                {
-                'title' : 'Attachment',
-                'render' : function(data, type, row, ind){
-                    return '<a href="'+utlt.siteUrl(row.name)+'" target="_blank"><i class="fal fa-folder-open"> '+utlt.siteUrl(row.name)+'</i>';
-                }
-            },
-             {
-                    title: 'Content',
-                    data: "content",
-                    name: 'content'
+                 {
+                    title: 'Decription',
+                    data: "decription",
+                    name: 'decription'
                 },
-                {
-                    title: 'Language',
-                    data: "language",
-                    name: 'language'
-                },
-                {
-                    title: 'Date',
-                    data: "date",
-                    name: 'date'
-                },
-                {
-                    'title': 'Status',
-                    'render': function (data, type, row, ind) {
-                        $status = '<label class="switch">' +
-                            '<input onchange="utlt.updateStatus(this,\'types/updateStatus/'+row.id+'\',\'status\')" data-id="' + row.id +
-                            '" type="checkbox" ' + ((row.status == 1) ? 'checked' : '') + '>' +
-                            '<span class="slider round"></span></label>';
-                        return $status;
-                    }
-                },
+                
                 {
                     'title': 'Action',
                     'data': 'id',

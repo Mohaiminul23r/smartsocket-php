@@ -1,5 +1,6 @@
 @extends('layouts.app', ['activePage' => 'types.index', 'titlePage' => __('Types')])
 @section('content')
+
 <div class="content">
     <div class="container-fluid">
         <div class="card">
@@ -19,7 +20,8 @@
                        <div class="col-md-6">
                         <div class="form-group">
                             <label for="description"><strong>Content</strong><span class="ml-1 text-danger">*</span></label><br>
-                            <textarea type="text" name="description"></textarea> 
+                            <input type="text" name="description">
+                            <div class="colnm-12" id="description"></div>
 
                         </div>
                     </div> 
@@ -42,11 +44,11 @@
 @endsection
 @push('js')
 <script type="text/javascript">
-   var oldDescription = '<?php echo isset($type->description)?$type->description:'' ?>' ;
+  
    $(document).ready(function(){
 
      $(document).on('click','#add_type_btn', function(){
-        $(document).find('input[name="description"]').val(window.description.getData());
+     
         utlt.asyncFalseRequest('Post','types', '#typeForm', null, null, null, function () {
             setTimeout(function() {
                 window.location.replace(utlt.siteUrl('types'));
@@ -58,37 +60,7 @@
         window.location.replace(utlt.siteUrl('types'));
     }); 
 
-     ClassicEditor.create(document.querySelector('#description'), {
-        toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList',
-        'blockQuote'
-        ],
-        heading: {
-            options: [{
-                model: 'paragraph',
-                title: 'Paragraph',
-                class: 'ck-heading_paragraph'
-            },
-            {
-                model: 'heading1',
-                view: 'h1',
-                title: 'Heading 1',
-                class: 'ck-heading_heading1'
-            },
-            {
-                model: 'heading2',
-                view: 'h2',
-                title: 'Heading 2',
-                class: 'ck-heading_heading2'
-            }
-            ]
-        }
-    }).then(editor => {
-        window.description = editor;
-        if(typeof description != 'undefined' && description != null)
-            window.description.setData(oldDescription);
-    }).catch(error => {
-        console.log(error);
-    });
+     
 });
 </script>
 @endpush
