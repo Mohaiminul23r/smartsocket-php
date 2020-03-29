@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Type extends Model
 {
+	use CommonTrait;
 	protected $fillable = [
 		'name',
 		'description',

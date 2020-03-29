@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Type;
+
 class TypeController extends Controller
 {
     /**
@@ -13,6 +14,7 @@ class TypeController extends Controller
      */
     public function index(Request $request)
     {
+       // dd($request->wantsJson());
         if ($request->wantsJson()){
             $type = new Type();
             return $type->DataTableLoader($request);
@@ -43,7 +45,7 @@ class TypeController extends Controller
         'description' => 'required',
         ]);
     Type::create($request->all());
-}
+    }
 
     public function show(Type $type)
     {
@@ -71,11 +73,11 @@ class TypeController extends Controller
      */
     public function update(Request $request, Type $type)
     {   //dd($circular);
-    $request->validate([
-        'name' => 'required',
-        'description' => 'required',
-    ]);
-
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+        ]);
+        
         $updateData = $request->all();
         
         $type->update($updateData);
