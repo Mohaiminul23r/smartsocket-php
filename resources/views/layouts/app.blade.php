@@ -18,7 +18,7 @@
     <link href="{{ asset('material/demo/demo.css') }}" rel="stylesheet" />
     {{-- fontawesome --}}
     <link href="{{asset('fonts/fontawesome-pro-5.12.0-web/css/all.css')}}" rel="stylesheet" >
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/b-1.6.1/fc-3.3.0/fh-3.1.6/r-2.2.3/rg-1.1.1/sl-1.3.1/datatables.min.css" />
     </head>
     <body class="{{ $class ?? '' }}">
         @auth()
@@ -72,33 +72,22 @@
                   <img src="{{ asset('material/img/sidebar-4.jpg') }}" alt="">
                 </a>
               </li>
-              <li class="button-container">
-                <a href="https://www.creative-tim.com/product/material-dashboard-laravel" target="_blank" class="btn btn-primary btn-block">Free Download</a>
-              </li>
-              <li class="button-container">
-                <a href="https://material-dashboard-laravel.creative-tim.com/docs/getting-started/laravel-setup.html" target="_blank" class="btn btn-default btn-block">
-                  View Documentation
-                </a>
-              </li>
-              <li class="button-container">
-                <a href="https://www.creative-tim.com/product/material-dashboard-pro-laravel" target="_blank" class="btn btn-danger btn-block btn-round">
-                  Upgrade to PRO
-                </a>
-              </li>
-              <li class="button-container github-star">
-                <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard-laravel" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ntkme/github-buttons on GitHub">Star</a>
-              </li>
-              <li class="header-title">Thank you for 95 shares!</li>
-              <li class="button-container text-center">
-                <button id="twitter" class="btn btn-round btn-twitter"><i class="fa fa-twitter"></i> &middot; 45</button>
-                <button id="facebook" class="btn btn-round btn-facebook"><i class="fa fa-facebook-f"></i> &middot; 50</button>
-                <br>
-                <br>
               </li>
             </ul>
           </div>
         </div>
         <!--   Core JS Files   -->
+        <script>
+          /********************************/
+          /*Define SiteUrl*/
+          /********************************/
+          var utlt = [];
+          utlt["siteUrl"] = function(url){
+              url = typeof url == "undefined" ? "" : url;
+              return "<?php echo url('/'); ?>/"+url;
+          }
+
+      </script>
         <script src="{{ asset('material/js/core/jquery.min.js') }}"></script>
         <script src="{{ asset('material/js/core/popper.min.js') }}"></script>
         <script src="{{ asset('material/js/core/bootstrap-material-design.min.js') }}"></script>
@@ -115,8 +104,9 @@
         <script src="{{ asset('material/js/plugins/bootstrap-selectpicker.js') }}"></script>
         <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
         <script src="{{ asset('material/js/plugins/bootstrap-datetimepicker.min.js') }}"></script>
-        <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
-        <script src="{{ asset('material/js/plugins/jquery.dataTables.min.js') }}"></script>
+        <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->{{-- 
+        <script src="{{ asset('material/js/plugins/jquery.dataTables.min.js') }}"></script> --}}
+        <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/b-1.6.1/fc-3.3.0/fh-3.1.6/r-2.2.3/rg-1.1.1/sl-1.3.1/datatables.min.js"></script>
         <!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
         <script src="{{ asset('material/js/plugins/bootstrap-tagsinput.js') }}"></script>
         <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
@@ -142,6 +132,8 @@
         <!-- Material Dashboard DEMO methods, don't include it in your project! -->
         <script src="{{ asset('material/demo/demo.js') }}"></script>
         <script src="{{ asset('material/js/settings.js') }}"></script>
+         <!-- Custom Js -->
+        <script src="{{ asset('js/custom.js') }}"></script>
         @stack('js')
     </body>
 </html>

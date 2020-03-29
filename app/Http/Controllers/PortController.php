@@ -14,7 +14,7 @@ class PortController extends Controller
      */
     public function index()
     {
-        //
+        return view('ports.index');
     }
 
     /**
