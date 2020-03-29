@@ -86,8 +86,8 @@
             columnDefs: [{
                 searchable: false,
                 orderable: false,
-                //targets: [0, 2]
-            }]
+               // targets: [0, 2]
+            }],
             responsive: true,
             autoWidth: false,
             serverSide: true,
