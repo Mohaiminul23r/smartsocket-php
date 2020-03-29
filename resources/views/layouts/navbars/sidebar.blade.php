@@ -47,7 +47,7 @@
           </ul>
         </div>
       </li>
-      <li class="nav-item {{ ($activePage == 'profile' || $activePage == 'user-management') ? ' active' : '' }}">
+{{--       <li class="nav-item {{ ($activePage == 'profile' || $activePage == 'user-management') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#laravelExample" aria-expanded="true">
           <i><img style="width:25px" src="{{ asset('material') }}/img/laravel.svg"></i>
           <p>{{ __('Laravel Examples') }}
@@ -106,7 +106,7 @@
           <i class="material-icons">language</i>
           <p>{{ __('RTL Support') }}</p>
         </a>
-      </li>
+      </li> --}}
     </ul>
   </div>
 </div>

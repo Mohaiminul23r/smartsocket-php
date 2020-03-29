@@ -19,7 +19,7 @@
                         </div>
                        <div class="col-md-6">
                         <div class="form-group">
-                            <label for="description"><strong>Content</strong><span class="ml-1 text-danger">*</span></label><br>
+                            <label for="description"><strong>Decriptions</strong><span class="ml-1 text-danger">*</span></label><br>
                             <input type="text" name="description">
                             <div class="colnm-12" id="description"></div>
 

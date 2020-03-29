@@ -13,9 +13,18 @@ class TypeController extends Controller
      */
     public function index(Request $request)
     {
+<<<<<<< HEAD
        if ($request->wantsJson()) {
         $type = new Type();
         return $type->DataTableLoader($request);
+=======
+        if ($request->wantsJson()){
+            $type = new Type();
+            return $type->DataTableLoader($request);
+        }
+        return view('types.index');    
+    }
+>>>>>>> 119c98938c65854f295c064e1f81d139c726345f
 
     }return view('types.index');
 }

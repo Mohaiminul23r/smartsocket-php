@@ -6,10 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Type extends Model
 {
-	 use CommonTrait;
-    protected $table = 'types';
-    public $timestamps = false;
-
 	protected $fillable = [
 		'name',
 		'description',
