@@ -32,4 +32,17 @@ class Controller extends BaseController
                                 ], $statusCode);
     }
 
+    public function encrypt_aes256($clear_text, $key, $iv) {
+        $iv = str_pad($iv, 16, "\0");
+        $encrypt_text = openssl_encrypt($clear_text, "AES-256-CBC", $key, OPENSSL_RAW_DATA, $iv);
+        $data = base64_encode($encrypt_text);
+        return $data;
+    }
+    public function decrypt_aes256($data, $key, $iv) {
+        $iv = str_pad($iv, 16, "\0");
+        $encrypt_text = base64_decode($data);
+        $clear_text = openssl_decrypt($encrypt_text, "AES-256-CBC", $key, OPENSSL_RAW_DATA, $iv);
+        return $clear_text;
+    }
+
 }

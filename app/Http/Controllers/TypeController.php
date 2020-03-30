@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Auth;
 use Illuminate\Http\Request;
 use App\Models\Type;
 
@@ -44,6 +44,15 @@ class TypeController extends Controller
             'name' => 'required',
             'description' => 'required',
          ]);
+
+        if($request->status == "on"){
+        $postData['status'] = 1;
+    }else if($request->status == "off"){
+        $postData['status'] = 0;
+    }
+
+    
+  $request['created_by'] = Auth::user()->id;
         Type::create($request->all());
 }
 
@@ -60,8 +69,8 @@ class TypeController extends Controller
      */
     public function edit(Type $type)
     {
-       $data['type'] = $type;
-        return view('types.edit', $data);
+       // $data['type'] = $type;
+       //  return view('types.form', $data);
     }
 
     /**
@@ -72,7 +81,7 @@ class TypeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Type $type)
-    {   //dd($circular);
+    {   //dd($type);
         $request->validate([
             'name' => 'required',
             'description' => 'required',
@@ -92,5 +101,10 @@ class TypeController extends Controller
     public function destroy(Type $type)
     {
         //
+    }
+      public function updateStatus(Request $request, type $type)
+    {
+        $type->status = $request->status;
+        return (($type->update())?1:0);
     }
 }
