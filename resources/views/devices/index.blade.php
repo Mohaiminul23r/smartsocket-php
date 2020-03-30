@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'devides.index', 'titlePage' => __('Manage Devices')])
+@extends('layouts.app', ['activePage' => 'Devices', 'titlePage' => __('Manage Devices')])
 @section('content')
 <div class="content p-2">
   <div class="container-fluid">

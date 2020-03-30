@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'ports.index', 'titlePage' => __('Manage Ports')])
+@extends('layouts.app', ['activePage' => 'Ports', 'titlePage' => __('Manage Ports')])
 @section('content')
 <div class="content p-2">
   <div class="container-fluid">
