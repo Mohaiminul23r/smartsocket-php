@@ -9,11 +9,7 @@
             <h5 class="card-title font-weight-bold">Add/Edit Ports</h5>
           </div>
           <div class="card-body">
-            <div class="table-responsive">
-              <table class="table">
-              
-              </table>
-            </div>
+            @include('ports.form')
           </div>
         </div>
       </div>
@@ -24,8 +20,10 @@
           </div>
           <div class="card-body">
             <div class="table-responsive">
-             	<table id="portDatatable" class="table" style="width:100%;">
-             	</table>
+              <div class="container border">
+               	<table id="portDatatable" class="table table-sm mt-3 mb-3 table-striped" style="width:100%;">
+               	</table>
+              </div>
             </div>
           </div>
         </div>
@@ -62,7 +60,8 @@ $(document).ready(function(){
                 }
             },
             {title : 'Port Name', data: "name", name: 'name', 'width':'30%'},
-            {title : 'Description', data: "description", name: 'description','width':'60%'},
+            {title : 'Description', data: "description", name: 'description','width':'40%'},
+            {title : 'Created By', data: "created_by", name: 'created_by','width':'20%'},
             {
                 'title' : 'Status',
                 'width':'10%',

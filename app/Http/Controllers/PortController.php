@@ -12,8 +12,12 @@ class PortController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->wantsJson()){
+            $port = new Port();
+            return $port->DataTableLoader($request);
+        }
         return view('ports.index');
     }
 
