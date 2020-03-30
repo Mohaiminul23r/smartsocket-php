@@ -1,38 +1,44 @@
 @extends('layouts.app', ['activePage' => 'types.index', 'titlePage' => __('Types')])
 @section('content')
-  <div class="content">
-    <div class="container-fluid">
- <div class="card">
-           <div class="card-header">
-                <h5 class="title">{{ _('Type List') }}</h5>
-            </div>
-            <div class="card-body col-md-12">
-                <div class="row">
-                    <div class="col-md-12">
-                        <a type="button" href="{{route('types.create')}}" class="text-white pull-right mb-3 mt-0 mr-1 btn btn-fill btn-sm btn-info"><i class="fas fa-plus"></i>{{ _(' Add') }}</a>
-                    </div>
-                </div>
-                <table id="typeDatatable" class="table" style="width:100%;">
-                </table>
-            </div>
+<div class="content p-2">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary p-2">
+            <h6 class="card-title">Add/Edit Types</h6>
+          </div>
+          <div class="card-body">
+             @include('types.form')
+          </div>
         </div>
+      </div>
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary p-2">
+            <h6 class="card-title mt-0">List of all Types</h6>
+          </div>
+          <div class="card-body">
+            <div class="container border">
+                <div class="table-responsive">
+                    <table id="typeDatatable" class="table table-sm mt-3 mb-3 table-striped" style="width:100%;">
+                    </table>
+                </div> 
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  	</div>
-  
+  </div>
+</div>
 @endsection
 @push('js')
-<!-- <script type="text/javascript">
-    $(document).ready(function(){
-
-    });
-</script> -->
 <script type="text/javascript">
     $(document).ready(function () {
         typeDatatable = $('#typeDatatable').DataTable({
             dom: '<"row"<"col-12 col-sm-6"l><"col-12 col-sm-6"f><"col-12 col-sm-12"t><"col-12 col-sm-6"i><"col-12 col-sm-6"p>>',
             lengthMenu: [
-                [10, 20, 50, 100, 500, -1],
-                [10, 20, 50, 100, 500, "All"]
+                [10, 20, 50, -1], [10, 20, 50, "All"]
             ],
             buttons: [],
             ajax: {
@@ -47,25 +53,17 @@
             columns: [{
                     'title': '#SL',
                     'data': 'id',
-                    'width': '8%',
+                    'width': '10%',
                     'align': 'center',
+                    'className': 'font-weight-bold',
                     'render': function (data, type, row, ind) {
                         var pageInfo = typeDatatable.page.info();
                         return (ind.row + 1) + pageInfo.start;
                     }
                 },
-                {
-                    title: 'Name',
-                    data: "name",
-                    name: 'name'
-                },
-               
-                 {
-                    title: 'Decription',
-                    data: "decription",
-                    name: 'decription'
-                },
-                
+                { title: 'Name', data: "name", name: 'name','width': '20%'},             
+                { title: 'Description', data: "description", name: 'description','width': '40%'},
+                { title: 'Created By', data: "created_by", name: 'created_by','width': '40%'},
                 {
                     'title': 'Action',
                     'data': 'id',
@@ -88,7 +86,7 @@
             columnDefs: [{
                 searchable: false,
                 orderable: false,
-                targets: [0, 2]
+               // targets: [0, 2]
             }],
             responsive: true,
             autoWidth: false,
