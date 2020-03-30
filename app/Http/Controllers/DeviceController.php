@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Device;
+use App\Models\Type;
+use Auth;
 
 class DeviceController extends Controller
 {
@@ -12,9 +14,14 @@ class DeviceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('devices.index');
+        if ($request->wantsJson()){
+            $device = new Device();
+            return $device->DataTableLoader($request);
+        }
+        $types = Type::all();
+        return view('devices.index',compact('types'));
     }
 
     /**
@@ -35,7 +42,16 @@ class DeviceController extends Controller
      */
     public function store(Request $request, Device $device)
     {
-        //
+        //dd($request->all());
+        $request->validate([
+            'espId' => 'required',
+            'type_id' => 'required',
+            'name' => 'required',
+            'description' => 'required',
+        ]);
+        $postData = $request->all();
+        $postData['created_by'] = Auth::id();
+        Device::create($postData);
     }
 
     /**
@@ -57,7 +73,7 @@ class DeviceController extends Controller
      */
     public function edit(Device $device)
     {
-        //
+        return $device;
     }
 
     /**
@@ -69,7 +85,15 @@ class DeviceController extends Controller
      */
     public function update(Request $request, Device $device)
     {
-        //
+        $request->validate([
+            'espId' => 'required',
+            'type_id' => 'required',
+            'name' => 'required',
+            'description' => 'required',
+        ]);
+        $updateData = $request->all();
+        $updateData['modified_by'] = Auth::id();
+        $device->update($updateData);
     }
 
     /**
@@ -80,6 +104,13 @@ class DeviceController extends Controller
      */
     public function destroy(Device $device)
     {
-        //
+        $device->delete();
+    }
+
+    public function updateStatus(Request $request, Device $device){
+        if($request->status != NULL){
+            $device->status = $request->status;
+        }
+        return (($device->update()) ? 1 : 0);
     }
 }

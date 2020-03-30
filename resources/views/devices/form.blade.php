@@ -1,23 +1,44 @@
  <div class="container border">
  	<h5 class="font-weight-bold mt-4 mb-3" id="title">Add Device Details</h5>
- 	<form id="portForm" autocomplete="off" enctype="multipart/form-data">
+ 	<form id="deviceForm" autocomplete="off" enctype="multipart/form-data">
  	<div class="row">
-    	<div class="col-md-4">
-    		<input type="hidden" name="port_id" id="port_id">
-		 	<div class="form-group">
-		    	<label for="port_name" class="font-weight-bold">Port Name</label>
-		    	<input type="text" class="form-control p-2" name="name" id="port_name"placeholder="Enter type name">
-		    	<span class="d-none help-block"></span>
-		    </div>
-		</div>
-		<div class="col-md-8">
+ 		<div class="col-md-4">
+    		<input type="hidden" name="device_id" id="device_id">
 			<div class="form-group">
-			    <label for="description" class="font-weight-bold">Description</label>
-			    <textarea class="form-control p-2" id="description" name="description" rows="2" placeholder="Type description"></textarea>
+			    <label for="type" class="font-weight-bold">Device Type<span class="ml-1 text-danger">*</span></label>
+			    <select class="form-control" name="type_id" id="type">
+			      <option value="" disabled selected>Select Device Type</option>
+			      @foreach($types as $type)
+			      	<option value="{{$type->id}}">{{$type->name}}</option>
+			      @endforeach
+			    </select>
 			    <span class="d-none help-block"></span>
 			</div>
 		</div>
-		
+ 		<div class="col-md-4">
+		 	<div class="form-group">
+		    	<label for="espId" class="font-weight-bold">Device ID<span class="ml-1 text-danger">*</span></label>
+		    	<input type="text" class="form-control p-2" name="espId" id="espId"placeholder="Enter device ID">
+		    	<span class="d-none help-block"></span>
+		    </div>
+		</div>
+    	<div class="col-md-4">
+		 	<div class="form-group">
+		    	<label for="device_name" class="font-weight-bold">Device Name<span class="ml-1 text-danger">*</span></label>
+		    	<input type="text" class="form-control p-2" name="name" id="device_name"placeholder="Enter device name">
+		    	<span class="d-none help-block"></span>
+		    </div>
+		</div>	
+	</div>
+	<div class="row">
+		<div class="col-md-8">
+			<div class="form-group">
+	            <label for="description" class="font-weight-bold"><strong>Description</label><span class="ml-1 text-danger">*</span></strong>
+	            <input type="hidden" name="description">
+	            <div class="col-sm-12" id="description"></div>
+	            <span class="d-none help-block"></span>
+        	</div>
+		</div>
 	</div>
 	</form>
 	<div class="row">
