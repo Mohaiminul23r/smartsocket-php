@@ -36,13 +36,16 @@ class TypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-     $request->validate([
+    public function store(Request $request) 
+
+      {
+        $request->validate([
         'name' => 'required',
         'description' => 'required',
-        ]);
-    Type::create($request->all());
+        
+
+    ]);
+        Type::create($request->all());
 }
 
     public function show(Type $type)
