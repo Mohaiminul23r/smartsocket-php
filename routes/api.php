@@ -15,29 +15,33 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('v1')->namespace('APIv1')->group(function () {	
-
-	Route::post('register', 'UserController@register');
-	Route::post('login', 'UserController@login');
+	
 	Route::get('device-state', 'DeviceController@state')->name('state');
 
-	Route::middleware(['auth:api','verified', 'SDLCrypt'])->group(function () {
+	Route::middleware('SDLCrypt')->group(function(){
+		
+		Route::post('register', 'UserController@register');
+		Route::post('login', 'UserController@login');
 
-		Route::get('user', function (Request $request) {
-		    return App\User::all();
+		Route::middleware(['auth:api','verified'])->group(function () {
+
+			Route::get('user', function (Request $request) {
+			    return App\User::all();
+			});
+
+			Route::get('profile', 'UserController@profile')->name('profile');
+			Route::put('profile-update', 'UserController@update')->name('profileUpdate');
+			Route::put('change-password', 'UserController@changePassword')->name('changePassword');
+			Route::put('change-profile-pic', 'UserController@changeProfilePic')->name('changeProfilePic');
+			Route::get('user-device', 'UserController@getDevice')->name('getDevice');
+			Route::post('user-device', 'UserController@addDevice')->name('addDevice');
+			Route::delete('user-device', 'UserController@removeDevice')->name('removeDevice');
+			Route::get('user-mobile', 'UserController@getMobile')->name('getMobile');
+			Route::post('user-mobile', 'UserController@addMobile')->name('addMobile');
+			Route::delete('user-mobile', 'UserController@removeMobile')->name('removeMobile');
+			Route::put('device-state', 'DeviceController@updateState')->name('updateState');
 		});
-
-		Route::get('profile', 'UserController@profile')->name('profile');
-		Route::put('profile-update', 'UserController@update')->name('profileUpdate');
-		Route::put('change-password', 'UserController@changePassword')->name('changePassword');
-		Route::put('change-profile-pic', 'UserController@changeProfilePic')->name('changeProfilePic');
-		Route::get('user-device', 'UserController@getDevice')->name('getDevice');
-		Route::post('user-device', 'UserController@addDevice')->name('addDevice');
-		Route::delete('user-device', 'UserController@removeDevice')->name('removeDevice');
-		Route::get('user-mobile', 'UserController@getMobile')->name('getMobile');
-		Route::post('user-mobile', 'UserController@addMobile')->name('addMobile');
-		Route::delete('user-mobile', 'UserController@removeMobile')->name('removeMobile');
-		Route::put('device-state', 'DeviceController@updateState')->name('updateState');
-	});
+	});	
 
 	if(env('APP_ENV') == 'local'){
 	Route::get('SDLCrypt',function(Request $request){
