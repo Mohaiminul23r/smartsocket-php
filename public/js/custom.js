@@ -261,7 +261,7 @@ utlt['asyncFalseRequest'] = function (type, url, formId, dataTable, redirectUrl,
                 showToast("NO network connection :( mail send failed)", 'danger')
             }
             else {
-                showToast("Successfuly!!");
+                showToast("Successfull !!");
                 $(document).find(formId).trigger("reset");
                 
                 if (typeof successCallBackFun == "function") {

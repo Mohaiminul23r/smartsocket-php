@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Port;
+use Auth;
 
 class PortController extends Controller
 {
@@ -39,7 +40,13 @@ class PortController extends Controller
      */
     public function store(Request $request, Port $port)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+        ]);
+        $postData = $request->all();
+        $postData['created_by'] = Auth::id();
+        Port::create($postData);
     }
 
     /**
@@ -61,7 +68,7 @@ class PortController extends Controller
      */
     public function edit(Port $port)
     {
-        //
+        return $port;
     }
 
     /**
@@ -84,6 +91,6 @@ class PortController extends Controller
      */
     public function destroy(Port $port)
     {
-        //
+        $port->delete();
     }
 }

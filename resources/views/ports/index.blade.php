@@ -6,7 +6,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-primary p-2">
-            <h5 class="card-title font-weight-bold">Add/Edit Ports</h5>
+            <h6 class="card-title">Add/Edit Ports</h6>
           </div>
           <div class="card-body">
             @include('ports.form')
@@ -16,7 +16,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-primary p-2">
-            <h5 class="card-title mt-0 font-weight-bold">List of all Ports</h5>
+            <h6 class="card-title mt-0">List of all Ports</h6>
           </div>
           <div class="card-body">
             <div class="table-responsive">
@@ -59,16 +59,22 @@ $(document).ready(function(){
                     return (ind.row + 1) + pageInfo.start;
                 }
             },
-            {title : 'Port Name', data: "name", name: 'name', 'width':'30%'},
-            {title : 'Description', data: "description", name: 'description','width':'40%'},
-            {title : 'Created By', data: "created_by", name: 'created_by','width':'20%'},
+            {title : 'Port Name', data: "name", name: 'name', 'width':'20%'},
+            {title : 'Description', data: "description", name: 'description','width':'30%'},
+            {title : 'Created By', data: "created_by", name: 'created_by','width':'15%'},
             {
                 'title' : 'Status',
-                'width':'10%',
+                'width':'15%',
                 'render' : function(data, type, row, ind){
-                    $status = '<label class="switch">'+
-                            '<input onchange="utlt.updateStatus(this,\'events/updateStatus/'+row.id+'\',\'status\')" data-id="'+row.id+'" type="checkbox" '+((row.status == 1)?'checked':'')+'>'+
-                            '<span class="slider round"></span></label>';
+                    // $status = '<label class="switch">'+
+                    //         '<input onchange="utlt.updateStatus(this,\'events/updateStatus/'+row.id+'\',\'status\')" data-id="'+row.id+'" type="checkbox" '+((row.status == 1)?'checked':'')+'>'+
+                    //         '<span class="slider round"></span></label>';
+                   $status = '<div class="togglebutton">'+
+                     ' <label>'+
+                        '<input type="checkbox" checked="">'+
+                          '<span class="toggle"></span>'+
+                     ' </label>'+
+                    '</div>';
                     return $status;
                 }
             },
@@ -78,17 +84,16 @@ $(document).ready(function(){
                 'class' : 'text-right',
                 'width' : '10%', 
                 'render' : function(data, type, row, ind){
-                    dropdown_item = '<div class="dropdown">'+
-                        '<a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
-                       '<i class="fas fa-ellipsis-v"></i>'+
-                       '</a>'+
-                          '<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">'+
-                            '<a href="'+utlt.siteUrl('events/'+row.id+'/edit')+'" class="btn btn-link  text-darker"><i class="fas fa-edit text-success m-2"></i> Edit</a>'+
-                            // '<a href="'+utlt.siteUrl('dailyTrades/'+row.id)+'" target="_blank" class="btn btn-link  text-darker"><i class="fas fa-eye-slash m-2"></i> View</a>'+
-                            '<button class="btn btn-link  text-darker delete_btn" data-id="'+data+'"><i class="fas fa-trash-alt m-2 text-danger"></i> Delete</button>'+
-                           '</div>'+
-                   '</div>';
-                   return dropdown_item;
+                 dropdown_item = '<div class="dropdown">' +
+                            '<a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                                '<i class="fas fa-ellipsis-v"></i>' +
+                            '</a>'+
+                            '<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">'+
+                                '<button class="btn btn-link text-darker edit_btn p-0 m-1" data-id="' + data +'"><i class="fas fa-edit text-success m-2"></i> Edit</button><br>'+
+                                '<button class="btn btn-link text-darker delete_btn p-0 m-1" data-id="' + data +'"><i class="fas fa-trash-alt m-2 text-danger"></i> Delete</button>'+
+                            '</div>'+
+                        '</div>';
+                    return dropdown_item;
                 }
             }
         ],
@@ -102,9 +107,68 @@ $(document).ready(function(){
     }); 
 
     $(document).on('click', '.delete_btn', function(){
-        let url = 'events/'+($(this).attr('data-id'));
+        let url = 'ports/'+($(this).attr('data-id'));
         utlt.Delete(url,'#portDatatable');
     });
+
+    //reset form
+    $(document).on('click', '#resetBtn', function(){
+        $(document).find('#portForm').trigger("reset");
+        $(document).find('#portForm .has-danger').removeClass('has-danger');
+        $(document).find('#portForm').find('.help-block').empty();
+    });
+
+    //insert data for port
+    $(document).on('click', '#saveBtn', function(){
+        $(document).find('#portForm .has-danger').removeClass('has-danger');
+        $(document).find('#portForm').find('.help-block').empty();
+         axios.post(''+utlt.siteUrl('ports')+'', $('#portForm').serialize())
+         .then(response => {
+            showToast("Successfully Added. ");
+            $(document).find('#portForm').trigger("reset");
+            $('#portDatatable').DataTable().ajax.reload();
+         })
+         .catch(error => {
+            $.each(error.response.data.payload.errors, function(inputName, errors){
+                $("#portForm [name="+inputName+"]").parent().removeClass('has-danger').addClass('has-danger');
+                if(typeof errors == "object"){
+                    $("#portForm [name^="+inputName+"]").parent().find('.help-block').empty();
+                    $.each(errors, function(indE, valE){
+                      console.log(valE);
+                        $("#portForm [name^="+inputName+"]").parent().find('.help-block').removeClass('d-none').append(valE+"<br>");
+                        $('.help-block').css("color", "red");
+                    });
+                }else{
+                    $("#portForm [name^="+inputName+"]").parent().find('.help-block').removeClass('d-none').html(valE);
+                }
+            });
+         });
+    });
+
+    //update port details
+     $(document).on('click', '.edit_btn', function(){
+         let port_id = $(this).attr('data-id');
+         change_button();
+         axios.get(''+utlt.siteUrl('ports/'+port_id+'/edit')+'')
+         .then(response => {
+            console.log(response);
+            $('#port_name').val(response.data.name);
+            $('#description').val(response.data.description);
+         })
+    });
 });
+
+function change_button(){
+   $('#saveBtn').text('Update').removeClass('btn-success').addClass('btn-info');
+   $('#backBtn').removeClass('d-none');
+   $('#title').text('Edit Port Details');
+}
+
+function index(){
+   //window.location.replace(utlt.siteUrl('ports'));
+   $('#saveBtn').text('Save').removeClass('btn-info').addClass('btn-success');
+   $('#backBtn').addClass('d-none');
+   $('#title').text('Add Port Details');
+}
 </script>
 @endpush
