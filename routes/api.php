@@ -18,6 +18,7 @@ Route::prefix('v1')->namespace('APIv1')->group(function () {
 
 	Route::post('register', 'UserController@register');
 	Route::post('login', 'UserController@login');
+	Route::get('device-state', 'DeviceController@state')->name('state');
 
 	Route::middleware(['auth:api','verified'])->group(function () {
 
@@ -36,6 +37,6 @@ Route::prefix('v1')->namespace('APIv1')->group(function () {
 		Route::post('user-mobile', 'UserController@addMobile')->name('addMobile');
 		Route::delete('user-mobile', 'UserController@removeMobile')->name('removeMobile');
 		Route::put('device-state', 'DeviceController@updateState')->name('updateState');
-		Route::get('device-state', 'DeviceController@state')->name('state');
 	});
+
 });
