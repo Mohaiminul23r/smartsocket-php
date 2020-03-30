@@ -20,7 +20,7 @@ Route::prefix('v1')->namespace('APIv1')->group(function () {
 	Route::post('login', 'UserController@login');
 	Route::get('device-state', 'DeviceController@state')->name('state');
 
-	Route::middleware(['auth:api','verified'])->group(function () {
+	Route::middleware(['auth:api','verified', 'SDLCrypt'])->group(function () {
 
 		Route::get('user', function (Request $request) {
 		    return App\User::all();
@@ -38,5 +38,19 @@ Route::prefix('v1')->namespace('APIv1')->group(function () {
 		Route::delete('user-mobile', 'UserController@removeMobile')->name('removeMobile');
 		Route::put('device-state', 'DeviceController@updateState')->name('updateState');
 	});
+
+	if(env('APP_ENV') == 'local'){
+	Route::get('SDLCrypt',function(Request $request){
+		return SDLCrypt::encrypt("Hello World",env('SDLCrypt_KEY'));
+	});
+
+	Route::post('SDLCrypt',function(Request $request){		
+		return SDLCrypt::encrypt($request->text,env('SDLCrypt_KEY'));
+	});
+
+	Route::put('SDLCrypt',function(Request $request){		
+		return SDLCrypt::decrypt($request->text,env('SDLCrypt_KEY'));
+	});
+	}
 
 });
