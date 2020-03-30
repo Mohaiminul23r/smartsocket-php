@@ -52,8 +52,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('upgrade', function () {
 		return view('pages.upgrade');
 	})->name('upgrade');
-Route::post('types/updateStatus/{type}', 'TypeController@updateStatus')->name('types.updateStatus');
+
 	Route::resource('types', 'TypeController');
+	Route::post('types/updateStatus/{type}', 'TypeController@updateStatus')->name('types.updateStatus');
 	Route::resource('ports', 'PortController');
 	Route::post('ports/updateStatus/{port}', 'PortController@updateStatus')->name('ports.updateStatus');
 	Route::resource('devices', 'DeviceController');

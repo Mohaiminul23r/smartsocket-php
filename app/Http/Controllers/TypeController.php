@@ -29,7 +29,7 @@ class TypeController extends Controller
      */
     public function create()
     {
-        return view('types.create');
+        
     }
 
     /**
@@ -38,22 +38,16 @@ class TypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) 
+    public function store(Request $request, Type $type) 
       {
         $request->validate([
             'name' => 'required',
             'description' => 'required',
          ]);
 
-        if($request->status == "on"){
-        $postData['status'] = 1;
-    }else if($request->status == "off"){
-        $postData['status'] = 0;
-    }
-
-    
-  $request['created_by'] = Auth::user()->id;
-        Type::create($request->all());
+        $postData = $request->all();
+        $postData['created_by'] = Auth::id();
+        Type::create($postData);
 }
 
     public function show(Type $type)
@@ -69,8 +63,7 @@ class TypeController extends Controller
      */
     public function edit(Type $type)
     {
-       // $data['type'] = $type;
-       //  return view('types.form', $data);
+       return $type;
     }
 
     /**
@@ -81,16 +74,16 @@ class TypeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Type $type)
-    {   //dd($type);
+     {
         $request->validate([
             'name' => 'required',
             'description' => 'required',
         ]);
-        
         $updateData = $request->all();
-        
+        $updateData['modified_by'] = Auth::id();
         $type->update($updateData);
-}
+        
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -100,11 +93,13 @@ class TypeController extends Controller
      */
     public function destroy(Type $type)
     {
-        //
+        $type->delete();
     }
       public function updateStatus(Request $request, type $type)
     {
-        $type->status = $request->status;
-        return (($type->update())?1:0);
+        if($request->status != NULL){
+            $type->status = $request->status;
+        }
+        return (($type->update()) ? 1 : 0);
     }
 }

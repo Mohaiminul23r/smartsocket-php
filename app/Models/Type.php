@@ -6,15 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Type extends Model
 {
+    use CommonTrait;
     protected $table = 'types';
-	use CommonTrait;
-	protected $fillable = [
+    protected $fillable = [
 		'name',
 		'description',
 		'created_by',
-		'modified_by',
-		'status'
+		'modified_by'
 	];
+
+	protected $hidden = ['pivot'];
 	
 	protected $guarded = [];
 
