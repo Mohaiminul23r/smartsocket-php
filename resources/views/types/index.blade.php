@@ -64,6 +64,17 @@
                 { title: 'Name', data: "name", name: 'name','width': '20%'},             
                 { title: 'Description', data: "description", name: 'description','width': '40%'},
                 { title: 'Created By', data: "created_by", name: 'created_by','width': '40%'},
+               
+               {
+                'title' : 'Status',
+                'width':'10%',
+                'render' : function(data, type, row, ind){
+                    $status = '<label class="switch">'+
+                            '<input onchange="utlt.updateStatus(this,\'types/updateStatus/'+row.id+'\',\'status\')" data-id="'+row.id+'" type="checkbox" '+((row.status == 1)?'checked':'')+'>'+
+                            '<span class="slider round"></span></label>';
+                    return $status;
+                }
+              },
                 {
                     'title': 'Action',
                     'data': 'id',
@@ -98,6 +109,15 @@
             let url = 'types/' + ($(this).attr('data-id'));
             utlt.Delete(url, '#typeDatatable');
         });
+
+         $(document).on('click','#saveBtn', function(){
+        
+        utlt.asyncFalseRequest('Post','types', '#typeForm', null, null, null, function () {
+            setTimeout(function() {
+                window.location.replace(utlt.siteUrl('types'));
+            }, 1000);
+        });
+    });
 
         
     });

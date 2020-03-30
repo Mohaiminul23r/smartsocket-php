@@ -52,7 +52,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('upgrade', function () {
 		return view('pages.upgrade');
 	})->name('upgrade');
-
+Route::post('types/updateStatus/{type}', 'TypeController@updateStatus')->name('types.updateStatus');
 	Route::resource('types', 'TypeController');
 	Route::resource('ports', 'PortController');
 	Route::resource('devices', 'DeviceController');
