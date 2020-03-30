@@ -73,11 +73,11 @@
                         dropdown_item = '<div class="dropdown">' +
                                 '<a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
                                     '<i class="fas fa-ellipsis-v"></i>' +
-                                '</a>' +
-                                '<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
-                                    '<a class="btn btn-link text-darker" href="' + utlt.siteUrl('types/' + data+'/edit') +'"><i class="fas fa-edit text-success m-2"></i> Edit</a>' +
-                                    '<button class="btn btn-link  text-darker delete_btn" data-id="' + data +'"><i class="fas fa-trash-alt m-2 text-danger"></i> Delete</button>' +
-                                '</div>' +
+                                '</a>'+
+                                '<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">'+
+                                    '<button class="btn btn-link text-darker p-0 m-1" data-id="' + data +'"><i class="fas fa-edit text-success m-2"></i> Edit</button><br>'+
+                                    '<button class="btn btn-link text-darker delete_btn p-0 m-1" data-id="' + data +'"><i class="fas fa-trash-alt m-2 text-danger"></i> Delete</button>'+
+                                '</div>'+
                             '</div>';
                         return dropdown_item;
                     }
@@ -98,6 +98,8 @@
             let url = 'types/' + ($(this).attr('data-id'));
             utlt.Delete(url, '#typeDatatable');
         });
+
+        
     });
 </script>
 @endpush
