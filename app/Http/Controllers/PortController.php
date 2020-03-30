@@ -80,7 +80,14 @@ class PortController extends Controller
      */
     public function update(Request $request, Port $port)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+        ]);
+        $updateData = $request->all();
+        $updateData['modified_by'] = Auth::id();
+        $port->update($updateData);
+        
     }
 
     /**
@@ -92,5 +99,12 @@ class PortController extends Controller
     public function destroy(Port $port)
     {
         $port->delete();
+    }
+
+    public function updateStatus(Request $request, Port $port){
+        if($request->status != NULL){
+            $port->status = $request->status;
+        }
+        return (($port->update()) ? 1 : 0);
     }
 }

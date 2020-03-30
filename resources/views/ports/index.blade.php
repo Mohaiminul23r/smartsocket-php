@@ -66,15 +66,12 @@ $(document).ready(function(){
                 'title' : 'Status',
                 'width':'15%',
                 'render' : function(data, type, row, ind){
-                    // $status = '<label class="switch">'+
-                    //         '<input onchange="utlt.updateStatus(this,\'events/updateStatus/'+row.id+'\',\'status\')" data-id="'+row.id+'" type="checkbox" '+((row.status == 1)?'checked':'')+'>'+
-                    //         '<span class="slider round"></span></label>';
                    $status = '<div class="togglebutton">'+
-                     ' <label>'+
-                        '<input type="checkbox" checked="">'+
-                          '<span class="toggle"></span>'+
-                     ' </label>'+
-                    '</div>';
+                              ' <label>'+
+                                 '<input type="checkbox" onchange="utlt.updateStatus(this,\'ports/updateStatus/'+row.id+'\',\'status\')" data-id="'+row.id+'" type="checkbox" '+((row.status == 1)?'checked':'')+'>'+
+                                   '<span class="toggle"></span>'+
+                              ' </label>'+
+                             '</div>';
                     return $status;
                 }
             },
@@ -113,9 +110,7 @@ $(document).ready(function(){
 
     //reset form
     $(document).on('click', '#resetBtn', function(){
-        $(document).find('#portForm').trigger("reset");
-        $(document).find('#portForm .has-danger').removeClass('has-danger');
-        $(document).find('#portForm').find('.help-block').empty();
+        reset_form();
     });
 
     //insert data for port
@@ -126,7 +121,7 @@ $(document).ready(function(){
          .then(response => {
             showToast("Successfully Added. ");
             $(document).find('#portForm').trigger("reset");
-            $('#portDatatable').DataTable().ajax.reload();
+            $('#portDatatable').DataTable().ajax.reload();            
          })
          .catch(error => {
             $.each(error.response.data.payload.errors, function(inputName, errors){
@@ -145,9 +140,10 @@ $(document).ready(function(){
          });
     });
 
-    //update port details
+    //add preious data at edit port details
      $(document).on('click', '.edit_btn', function(){
          let port_id = $(this).attr('data-id');
+         $('#port_id').val(port_id);
          change_button();
          axios.get(''+utlt.siteUrl('ports/'+port_id+'/edit')+'')
          .then(response => {
@@ -156,19 +152,55 @@ $(document).ready(function(){
             $('#description').val(response.data.description);
          })
     });
+
+     //update when button clicked
+     $('#editBtn').click(function(){
+         let edit_port_id = $('#port_id').val();
+         axios.put(''+utlt.siteUrl('ports/'+edit_port_id)+'', $('#portForm').serialize())
+         .then(response => {
+            showToast("Successfully Updated !!", 'warning');
+            $(document).find('#portForm').trigger("reset");
+            $('#portDatatable').DataTable().ajax.reload();
+            index();
+         })
+         .catch(error => {
+            $.each(error.response.data.payload.errors, function(inputName, errors){
+                $("#portForm [name="+inputName+"]").parent().removeClass('has-danger').addClass('has-danger');
+                if(typeof errors == "object"){
+                    $("#portForm [name^="+inputName+"]").parent().find('.help-block').empty();
+                    $.each(errors, function(indE, valE){
+                      console.log(valE);
+                        $("#portForm [name^="+inputName+"]").parent().find('.help-block').removeClass('d-none').append(valE+"<br>");
+                        $('.help-block').css("color", "red");
+                    });
+                }else{
+                    $("#portForm [name^="+inputName+"]").parent().find('.help-block').removeClass('d-none').html(valE);
+                }
+            });
+         });
+     });
 });
 
 function change_button(){
-   $('#saveBtn').text('Update').removeClass('btn-success').addClass('btn-info');
+   $('#saveBtn').addClass('d-none');
+   $('#editBtn').removeClass('d-none');
    $('#backBtn').removeClass('d-none');
    $('#title').text('Edit Port Details');
 }
 
 function index(){
    //window.location.replace(utlt.siteUrl('ports'));
-   $('#saveBtn').text('Save').removeClass('btn-info').addClass('btn-success');
+   $('#saveBtn').removeClass('d-none');
+   $('#editBtn').addClass('d-none');
    $('#backBtn').addClass('d-none');
    $('#title').text('Add Port Details');
+   reset_form();
+}
+
+function reset_form(){
+   $(document).find('#portForm').trigger("reset");
+   $(document).find('#portForm .has-danger').removeClass('has-danger');
+   $(document).find('#portForm').find('.help-block').empty();
 }
 </script>
 @endpush

@@ -55,6 +55,7 @@ Route::group(['middleware' => 'auth'], function () {
 Route::post('types/updateStatus/{type}', 'TypeController@updateStatus')->name('types.updateStatus');
 	Route::resource('types', 'TypeController');
 	Route::resource('ports', 'PortController');
+	Route::post('ports/updateStatus/{port}', 'PortController@updateStatus')->name('ports.updateStatus');
 	Route::resource('devices', 'DeviceController');
 });
 
