@@ -44,17 +44,14 @@ class TypeController extends Controller
         $request->validate([
         'name' => 'required',
         'description' => 'required',
-<<<<<<< HEAD
+
         
 
     ]);
         Type::create($request->all());
 }
-=======
-        ]);
-    Type::create($request->all());
-    }
->>>>>>> c3faf44d901020c7df971b9342d884bb8481deb2
+
+       
 
     public function show(Type $type)
     {
