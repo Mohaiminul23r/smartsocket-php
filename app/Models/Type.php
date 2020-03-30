@@ -12,7 +12,8 @@ class Type extends Model
 		'name',
 		'description',
 		'created_by',
-		'modified_by'
+		'modified_by',
+		'status'
 	];
 	
 	protected $guarded = [];
