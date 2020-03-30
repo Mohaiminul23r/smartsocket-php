@@ -24,7 +24,7 @@
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse" id="generalSettings">
+        <div class="collapse{{($activePage=='Types' || $activePage=='Ports' || $activePage=='Devices')?'show':'' }}" id="generalSettings">
           <ul class="nav">
             <li class="nav-item{{ $activePage == 'Types' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('types.index') }}">
