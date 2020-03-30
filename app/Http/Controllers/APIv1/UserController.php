@@ -72,17 +72,17 @@ class UserController extends Controller
 	public function update(Request $request)
 	{
 		$validated     = $request->validate([
-			'name'     => 'bail|nullable|string|max:255',
+			'name'     => 'bail|required|string|max:255',
 			'email'    => ['bail', 
-						   'nullable', 
+						   'required', 
 						   'string', 
 						   'email', 
 						   'max:255', 
 						   Rule::unique('users')->ignore($request->user()->id)
 						],
 			'phone'    => 'bail|nullable|string|max:50',
-			'city'     => 'bail|nullable|string|max:50',
-			'country'  => 'bail|nullable|string|max:50'
+			'city'     => 'bail|required|string|max:50',
+			'country'  => 'bail|required|string|max:50'
 		]);
 
 		$user = User::where('id', $request->user()->id)->update([
