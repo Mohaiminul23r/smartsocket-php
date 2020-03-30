@@ -1,5 +1,5 @@
  <div class="container border">
- 	<h5 class="font-weight-bold mt-4 mb-3" id="title">Add Port Details</h5>
+ 	<h5 class="font-weight-bold mt-4 mb-3" id="title">Add Device Details</h5>
  	<form id="portForm" autocomplete="off" enctype="multipart/form-data">
  	<div class="row">
     	<div class="col-md-4">
