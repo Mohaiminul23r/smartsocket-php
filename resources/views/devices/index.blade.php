@@ -21,7 +21,7 @@
           <div class="card-body">
             <div class="table-responsive">
               <div class="container border">
-               	<table id="portDatatable" class="table table-sm mt-3 mb-3 table-striped" style="width:100%;">
+               	<table id="deviceDatatable" class="table table-sm mt-3 mb-3 table-striped" style="width:100%;">
                	</table>
               </div>
             </div>
@@ -35,12 +35,44 @@
 @push('js')
 <script type="text/javascript">
 $(document).ready(function(){
-    portDatatable = $('#portDatatable').DataTable({
+	$('#type').select2();
+   ClassicEditor.create(document.querySelector('#description'), {
+        toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList',
+            'blockQuote'
+        ],
+        heading: {
+            options: [{
+                    model: 'paragraph',
+                    title: 'Paragraph',
+                    class: 'ck-heading_paragraph'
+                },
+                {
+                    model: 'heading1',
+                    view: 'h1',
+                    title: 'Heading 1',
+                    class: 'ck-heading_heading1'
+                },
+                {
+                    model: 'heading2',
+                    view: 'h2',
+                    title: 'Heading 2',
+                    class: 'ck-heading_heading2'
+                }
+            ]
+        }
+    }).then(editor => {
+        window.description = editor;
+        // if(typeof details != 'undefined' && details != null)
+        //     window.details.setData(oldDetails);
+    }).catch(error => {
+        console.log(error);
+    });
+    deviceDatatable = $('#deviceDatatable').DataTable({
         dom: '<"row"<"col-12 col-sm-6"l><"col-12 col-sm-6"f><"col-12 col-sm-12"t><"col-12 col-sm-6"i><"col-12 col-sm-6"p>>',
         lengthMenu: [[10,20,50, -1], [10,20,50, "All"]],
         buttons: [],
         ajax: {
-            url: 'ports',
+            url: 'devices',
             dataSrc: function (json) {
                 return json.data;
             },
@@ -55,12 +87,14 @@ $(document).ready(function(){
                 'width' : '10%',
                 'align' : 'center',
                 'render' : function(data, type, row, ind){
-                    var pageInfo = portDatatable.page.info();
+                    var pageInfo = deviceDatatable.page.info();
                     return (ind.row + 1) + pageInfo.start;
                 }
             },
-            {title : 'Port Name', data: "name", name: 'name', 'width':'20%'},
-            {title : 'Description', data: "description", name: 'description','width':'30%'},
+            {title : 'Device Id', data: "espId", name: 'espId', 'width':'10%'},
+            {title : 'Device Name', data: "name", name: 'name', 'width':'15%'},
+            {title : 'Type', data: "type_id", name: 'type_id', 'width':'15%'},
+            {title : 'Description', data: "description", name: 'description','width':'20%'},
             {title : 'Created By', data: "created_by", name: 'created_by','width':'15%'},
             {
                 'title' : 'Status',
@@ -68,7 +102,7 @@ $(document).ready(function(){
                 'render' : function(data, type, row, ind){
                    $status = '<div class="togglebutton">'+
                               ' <label>'+
-                                 '<input type="checkbox" onchange="utlt.updateStatus(this,\'ports/updateStatus/'+row.id+'\',\'status\')" data-id="'+row.id+'" type="checkbox" '+((row.status == 1)?'checked':'')+'>'+
+                                 '<input type="checkbox" onchange="utlt.updateStatus(this,\'devices/updateStatus/'+row.id+'\',\'status\')" data-id="'+row.id+'" type="checkbox" '+((row.status == 1)?'checked':'')+'>'+
                                    '<span class="toggle"></span>'+
                               ' </label>'+
                              '</div>';
@@ -104,8 +138,8 @@ $(document).ready(function(){
     }); 
 
     $(document).on('click', '.delete_btn', function(){
-        let url = 'ports/'+($(this).attr('data-id'));
-        utlt.Delete(url,'#portDatatable');
+        let url = 'devices/'+($(this).attr('data-id'));
+        utlt.Delete(url,'#deviceDatatable');
     });
 
     //reset form
@@ -115,26 +149,27 @@ $(document).ready(function(){
 
     //insert data for port
     $(document).on('click', '#saveBtn', function(){
-        $(document).find('#portForm .has-danger').removeClass('has-danger');
-        $(document).find('#portForm').find('.help-block').empty();
-         axios.post(''+utlt.siteUrl('ports')+'', $('#portForm').serialize())
+        $(document).find('#deviceForm .has-danger').removeClass('has-danger');
+        $(document).find('#deviceForm').find('.help-block').empty();
+        $(document).find('input[name="description"]').val(window.description.getData());
+         axios.post(''+utlt.siteUrl('devices')+'', $('#deviceForm').serialize())
          .then(response => {
             showToast("Successfully Added. ");
-            $(document).find('#portForm').trigger("reset");
-            $('#portDatatable').DataTable().ajax.reload();            
+            reset_form();
+            $('#deviceDatatable').DataTable().ajax.reload();            
          })
          .catch(error => {
             $.each(error.response.data.payload.errors, function(inputName, errors){
-                $("#portForm [name="+inputName+"]").parent().removeClass('has-danger').addClass('has-danger');
+                $("#deviceForm [name="+inputName+"]").parent().removeClass('has-danger').addClass('has-danger');
                 if(typeof errors == "object"){
-                    $("#portForm [name^="+inputName+"]").parent().find('.help-block').empty();
+                    $("#deviceForm [name^="+inputName+"]").parent().find('.help-block').empty();
                     $.each(errors, function(indE, valE){
                       console.log(valE);
-                        $("#portForm [name^="+inputName+"]").parent().find('.help-block').removeClass('d-none').append(valE+"<br>");
+                        $("#deviceForm [name^="+inputName+"]").parent().find('.help-block').removeClass('d-none').append(valE+"<br>");
                         $('.help-block').css("color", "red");
                     });
                 }else{
-                    $("#portForm [name^="+inputName+"]").parent().find('.help-block').removeClass('d-none').html(valE);
+                    $("#deviceForm [name^="+inputName+"]").parent().find('.help-block').removeClass('d-none').html(valE);
                 }
             });
          });
@@ -142,39 +177,46 @@ $(document).ready(function(){
 
     //add preious data at edit port details
      $(document).on('click', '.edit_btn', function(){
-         let port_id = $(this).attr('data-id');
-         $('#port_id').val(port_id);
+         let device_id = $(this).attr('data-id');
+         $('#device_id').val(device_id);
          change_button();
-         axios.get(''+utlt.siteUrl('ports/'+port_id+'/edit')+'')
+         axios.get(''+utlt.siteUrl('devices/'+device_id+'/edit')+'')
          .then(response => {
-            console.log(response);
-            $('#port_name').val(response.data.name);
-            $('#description').val(response.data.description);
+            $("#type").val(null).trigger('change');
+            $('#device_name').val('');
+            $('#espId').val('');
+            window.description.setData('');
+            $("#type").val(response.data.type_id).trigger('change');
+            $('#device_name').val(response.data.name);
+            $('#espId').val(response.data.espId);
+            window.description.setData(response.data.description);
          })
     });
 
      //update when button clicked
      $('#editBtn').click(function(){
-         let edit_port_id = $('#port_id').val();
-         axios.put(''+utlt.siteUrl('ports/'+edit_port_id)+'', $('#portForm').serialize())
+         let edit_device_id = $('#device_id').val();
+         $(document).find('input[name="description"]').val('');
+         $(document).find('input[name="description"]').val(window.description.getData());
+         axios.put(''+utlt.siteUrl('devices/'+edit_device_id)+'', $('#deviceForm').serialize())
          .then(response => {
             showToast("Successfully Updated !!", 'warning');
-            $(document).find('#portForm').trigger("reset");
-            $('#portDatatable').DataTable().ajax.reload();
+            $(document).find('#deviceForm').trigger("reset");
+            $('#deviceDatatable').DataTable().ajax.reload();
             index();
          })
          .catch(error => {
             $.each(error.response.data.payload.errors, function(inputName, errors){
-                $("#portForm [name="+inputName+"]").parent().removeClass('has-danger').addClass('has-danger');
+                $("#deviceForm [name="+inputName+"]").parent().removeClass('has-danger').addClass('has-danger');
                 if(typeof errors == "object"){
-                    $("#portForm [name^="+inputName+"]").parent().find('.help-block').empty();
+                    $("#deviceForm [name^="+inputName+"]").parent().find('.help-block').empty();
                     $.each(errors, function(indE, valE){
                       console.log(valE);
-                        $("#portForm [name^="+inputName+"]").parent().find('.help-block').removeClass('d-none').append(valE+"<br>");
+                        $("#deviceForm [name^="+inputName+"]").parent().find('.help-block').removeClass('d-none').append(valE+"<br>");
                         $('.help-block').css("color", "red");
                     });
                 }else{
-                    $("#portForm [name^="+inputName+"]").parent().find('.help-block').removeClass('d-none').html(valE);
+                    $("#deviceForm [name^="+inputName+"]").parent().find('.help-block').removeClass('d-none').html(valE);
                 }
             });
          });
@@ -185,22 +227,25 @@ function change_button(){
    $('#saveBtn').addClass('d-none');
    $('#editBtn').removeClass('d-none');
    $('#backBtn').removeClass('d-none');
-   $('#title').text('Edit Port Details');
+   $('#title').text('Edit Device Details');
 }
 
 function index(){
-   //window.location.replace(utlt.siteUrl('ports'));
+   //window.location.replace(utlt.siteUrl('devices'));
    $('#saveBtn').removeClass('d-none');
    $('#editBtn').addClass('d-none');
    $('#backBtn').addClass('d-none');
-   $('#title').text('Add Port Details');
+   $('#title').text('Add Device Details');
    reset_form();
 }
 
 function reset_form(){
-   $(document).find('#portForm').trigger("reset");
-   $(document).find('#portForm .has-danger').removeClass('has-danger');
-   $(document).find('#portForm').find('.help-block').empty();
+   $(document).find('#deviceForm').trigger("reset");
+   $(document).find('#deviceForm .has-danger').removeClass('has-danger');
+   $(document).find('#deviceForm').find('.help-block').empty();
+   $(document).find('input[name="description"]').val('');
+   window.description.setData('');
+   $("#type").val(null).trigger('change');
 }
 </script>
 @endpush

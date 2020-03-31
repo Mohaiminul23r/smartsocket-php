@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Device extends Model
 {
+	use CommonTrait;
+	protected $table = 'devices';
 	protected $fillable = [
 		'espId',
 		'type_id',

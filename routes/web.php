@@ -58,6 +58,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('ports', 'PortController');
 	Route::post('ports/updateStatus/{port}', 'PortController@updateStatus')->name('ports.updateStatus');
 	Route::resource('devices', 'DeviceController');
+	Route::post('devices/updateStatus/{device}', 'DeviceController@updateStatus')->name('devices.updateStatus');
 });
 
 Route::group(['middleware' => 'auth'], function () {
