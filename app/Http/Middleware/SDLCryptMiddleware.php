@@ -21,7 +21,7 @@ class SDLCryptMiddleware
             $data = $response->getData();
             $responseCode = $response->status();            
             $data = SDLCrypt::encrypt(json_encode($data),env('SDLCrypt_KEY'));
-            return response()->json($data,$responseCode);            
+            return response()->json(['response' => $data],$responseCode);            
         }
         return $next($request);
     }
