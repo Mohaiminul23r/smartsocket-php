@@ -42,9 +42,8 @@ class DeviceController extends Controller
      */
     public function store(Request $request, Device $device)
     {
-        //dd($request->all());
         $request->validate([
-            'espId' => 'required',
+            'espId' => 'required|unique:devices,espId',
             'type_id' => 'required',
             'name' => 'required',
             'description' => 'required',
@@ -86,7 +85,7 @@ class DeviceController extends Controller
     public function update(Request $request, Device $device)
     {
         $request->validate([
-            'espId' => 'required',
+            'espId' => 'required|unique:devices,espId,'.$device->id,
             'type_id' => 'required',
             'name' => 'required',
             'description' => 'required',

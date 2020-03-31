@@ -182,9 +182,11 @@ $(document).ready(function(){
          change_button();
          axios.get(''+utlt.siteUrl('devices/'+device_id+'/edit')+'')
          .then(response => {
-            console.log(response);
-            // $('#type option[value='+response.data.type_id+']').attr('selected','selected');
-            $("#type").val(response.data.type_id).trigger('click');
+            $("#type").val(null).trigger('change');
+            $('#device_name').val('');
+            $('#espId').val('');
+            window.description.setData('');
+            $("#type").val(response.data.type_id).trigger('change');
             $('#device_name').val(response.data.name);
             $('#espId').val(response.data.espId);
             window.description.setData(response.data.description);
@@ -194,6 +196,8 @@ $(document).ready(function(){
      //update when button clicked
      $('#editBtn').click(function(){
          let edit_device_id = $('#device_id').val();
+         $(document).find('input[name="description"]').val('');
+         $(document).find('input[name="description"]').val(window.description.getData());
          axios.put(''+utlt.siteUrl('devices/'+edit_device_id)+'', $('#deviceForm').serialize())
          .then(response => {
             showToast("Successfully Updated !!", 'warning');
