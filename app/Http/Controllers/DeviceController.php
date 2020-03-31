@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Device;
+use App\Models\DevicePort;
 use App\Models\Type;
+use App\Models\Port;
 use Auth;
 
 class DeviceController extends Controller
@@ -21,7 +23,8 @@ class DeviceController extends Controller
             return $device->DataTableLoader($request);
         }
         $types = Type::all();
-        return view('devices.index',compact('types'));
+        $ports = Port::all();
+        return view('devices.index',compact('types','ports'));
     }
 
     /**
@@ -42,6 +45,7 @@ class DeviceController extends Controller
      */
     public function store(Request $request, Device $device)
     {
+       // dd($request->all());
         $request->validate([
             'espId' => 'required|unique:devices,espId',
             'type_id' => 'required',
@@ -50,7 +54,20 @@ class DeviceController extends Controller
         ]);
         $postData = $request->all();
         $postData['created_by'] = Auth::id();
-        Device::create($postData);
+        $device = Device::create($postData);
+        //dd($request->port_id);
+        $portData = array(
+            'device_id' => $device->id,
+            'port_id' => $request->port_id,
+        );
+       // dd($portData['port_id']);
+        foreach($portData['port_id'] as $port){
+            $dpdata = [
+                'device_id'=>$device->id,
+                'port_id'=>$port,
+            ];
+            DevicePort::create($dpdata);
+        }
     }
 
     /**

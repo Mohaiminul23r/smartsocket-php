@@ -10,6 +10,7 @@
           </div>
           <div class="card-body">
             @include('devices.form')
+            @include('devices.port_modal')
           </div>
         </div>
       </div>
@@ -36,6 +37,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$('#type').select2();
+	$('#port').select2();
    ClassicEditor.create(document.querySelector('#description'), {
         toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList',
             'blockQuote'
@@ -84,7 +86,7 @@ $(document).ready(function(){
             {
                 'title' : '#SL',
                 'data' : 'id',
-                'width' : '10%',
+                'width' : '6%',
                 'align' : 'center',
                 'render' : function(data, type, row, ind){
                     var pageInfo = deviceDatatable.page.info();
@@ -96,6 +98,10 @@ $(document).ready(function(){
             {title : 'Type', data: "type_id", name: 'type_id', 'width':'15%'},
             {title : 'Description', data: "description", name: 'description','width':'20%'},
             {title : 'Created By', data: "created_by", name: 'created_by','width':'15%'},
+            {title : 'Port','width':'8%', 'render' : function(data, type, row, ind){
+            		return '<span class="badge badge-primary" onclick="show_port_modal()" style="cursor: pointer;">Show</span>';
+            	}
+        	},
             {
                 'title' : 'Status',
                 'width':'15%',
@@ -113,7 +119,7 @@ $(document).ready(function(){
                 'title' : 'Action',
                 'data' : 'id', 
                 'class' : 'text-right',
-                'width' : '10%', 
+                'width' : '6%', 
                 'render' : function(data, type, row, ind){
                  dropdown_item = '<div class="dropdown">' +
                             '<a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
@@ -246,6 +252,11 @@ function reset_form(){
    $(document).find('input[name="description"]').val('');
    window.description.setData('');
    $("#type").val(null).trigger('change');
+   $("#port").val(null).trigger('change');
+}
+
+function show_port_modal(){
+	$('#portModal').modal('show');
 }
 </script>
 @endpush

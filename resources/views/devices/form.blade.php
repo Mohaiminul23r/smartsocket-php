@@ -39,6 +39,18 @@
 	            <span class="d-none help-block"></span>
         	</div>
 		</div>
+		<div class="col-md-4">
+			<div class="form-group">
+	            <label for="port" class="font-weight-bold">Assign Ports<span class="ml-1 text-danger">*</span></label>
+			    <select class="form-control" name="port_id[]" id="port" multiple="multiple">
+			      <option value="" disabled selected>Assign Port for Device</option>
+			      @foreach($ports as $port)
+			      	<option value="{{$port->id}}">{{$port->name}}</option>
+			      @endforeach
+			    </select>
+			    <span class="d-none help-block"></span>
+        	</div>
+		</div>
 	</div>
 	</form>
 	<div class="row">
