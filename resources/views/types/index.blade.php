@@ -62,6 +62,7 @@ $(document).ready(function(){
             {title : 'Type Name', data: "name", name: 'name', 'width':'20%'},
             {title : 'Description', data: "description", name: 'description','width':'30%'},
             {title : 'Created By', data: "created_by", name: 'created_by','width':'15%'},
+          
             {
                 'title' : 'Status',
                 'width':'15%',
