@@ -37,7 +37,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$('#type').select2();
-	$('#port').select2();
+	init_port_select2();
    ClassicEditor.create(document.querySelector('#description'), {
         toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList',
             'blockQuote'
@@ -94,12 +94,17 @@ $(document).ready(function(){
                 }
             },
             {title : 'Device Id', data: "espId", name: 'espId', 'width':'10%'},
-            {title : 'Device Name', data: "deviceName", name: 'name', 'width':'15%'},
+            {title : 'Name', data: "deviceName", name: 'name', 'width':'15%'},
             {title : 'Type', data: "typeName", name: 'type_id', 'width':'15%'},
             {title : 'Description', data: "description", name: 'description','width':'20%'},
             {title : 'Created By', data: "userName", name: 'created_by','width':'15%'},
-            {title : 'Port','width':'8%', 'render' : function(data, type, row, ind){
-            		return '<span class="badge badge-primary" onclick="show_port_modal()" style="cursor: pointer;">Show</span>';
+            {title : 'Port', 'width':'8%', 'render' : function(data, type, row, ind){
+            		let port = [];
+            		$.each(row.ports, function(ind, val){
+            			let span = '<span class="badge badge-primary">'+val.name+'</span>';
+            			port.push(span);
+            		});
+            		return port;
             	}
         	},
             {
@@ -188,11 +193,22 @@ $(document).ready(function(){
          change_button();
          axios.get(''+utlt.siteUrl('devices/'+device_id+'/edit')+'')
          .then(response => {
+         	//console.log(response.data.ports.length);
             $("#type").val(null).trigger('change');
+            $("#port").val(null).trigger('change');
             $('#device_name').val('');
             $('#espId').val('');
             window.description.setData('');
             $("#type").val(response.data.type_id).trigger('change');
+            if(response.data.ports.length != 0){
+         		let ports = [];
+	            $.each(response.data.ports, function(ind, val){
+	            	ports.push(val.id);
+	            });	
+            	$('#port').val(ports).change();
+            }else if(response.data.ports.length == 0){
+            	init_port_select2();
+            }
             $('#device_name').val(response.data.name);
             $('#espId').val(response.data.espId);
             window.description.setData(response.data.description);
@@ -257,6 +273,10 @@ function reset_form(){
 
 function show_port_modal(){
 	$('#portModal').modal('show');
+}
+
+function init_port_select2(){
+	$('#port').select2();
 }
 </script>
 @endpush

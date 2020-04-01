@@ -49,6 +49,7 @@ class Device extends Model
 		$join = $this->Join;
 		$search = $this->Search;
 		$order_by = $this->Order;
+		$with = ['ports'];
 
 		$totalData = $this::query();
 		$filterData = $this::query();
@@ -93,8 +94,6 @@ class Device extends Model
 		$filterData->leftJoin('users', 'devices.created_by', '=', 'users.id');
 		$totalCount->leftJoin('users', 'devices.created_by', '=', 'users.id');
 		
-
-
 		if (count($search) > 0) {
 			$totalData->where(function ($totalData) use ($search) {
 				foreach ($search as $keyS => $valueS) {
@@ -106,6 +105,13 @@ class Device extends Model
 					}
 				}
 			});
+			if(count($search) > 0){
+				foreach ($search as $keyS => $valueS) {	
+					$totalData->orWhere($keyS, 'like', "%$valueS%");
+					$filterData->orWhere($keyS, 'like', "%$valueS%");
+				}	
+			}
+
 
 			$filterData->where(function ($filterData) use ($search) {
 				foreach ($search as $keyS => $valueS) {
@@ -122,6 +128,13 @@ class Device extends Model
 			$totalData->orderBy($this->getTable() . '.id', 'DESC');
 		}
 
+		if(count($with) > 0){
+			foreach ($with as $with) {	
+				$totalData->with($with);
+				$filterData->with($with);
+
+			}
+		}
 
 		$totalData = $totalData->selectRaw('devices.id, devices.espId, types.name as typeName, devices.name as deviceName, devices.description, users.name as userName, devices.status')->get();
 		$totalData->transform(function ($item) {

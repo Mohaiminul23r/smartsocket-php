@@ -45,7 +45,6 @@ class DeviceController extends Controller
      */
     public function store(Request $request, Device $device)
     {
-       // dd($request->all());
         $request->validate([
             'espId' => 'required|unique:devices,espId',
             'type_id' => 'required',
@@ -55,12 +54,10 @@ class DeviceController extends Controller
         $postData = $request->all();
         $postData['created_by'] = Auth::id();
         $device = Device::create($postData);
-        //dd($request->port_id);
         $portData = array(
             'device_id' => $device->id,
             'port_id' => $request->port_id,
         );
-       // dd($portData['port_id']);
         foreach($portData['port_id'] as $port){
             $dpdata = [
                 'device_id'=>$device->id,
@@ -89,6 +86,7 @@ class DeviceController extends Controller
      */
     public function edit(Device $device)
     {
+        $device = Device::where('id', $device->id)->with('ports')->get()->first();
         return $device;
     }
 
@@ -110,6 +108,18 @@ class DeviceController extends Controller
         $updateData = $request->all();
         $updateData['modified_by'] = Auth::id();
         $device->update($updateData);
+        $device->ports->delete();
+        $portData = array(
+            'device_id' => $device->id,
+            'port_id' => $request->port_id,
+        );
+        foreach($portData['port_id'] as $port){
+            $dpdata = [
+                'device_id'=>$device->id,
+                'port_id'=>$port,
+            ];
+            DevicePort::create($dpdata);
+        }
     }
 
     /**
