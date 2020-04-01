@@ -94,10 +94,10 @@ $(document).ready(function(){
                 }
             },
             {title : 'Device Id', data: "espId", name: 'espId', 'width':'10%'},
-            {title : 'Device Name', data: "name", name: 'name', 'width':'15%'},
-            {title : 'Type', data: "type_id", name: 'type_id', 'width':'15%'},
+            {title : 'Device Name', data: "deviceName", name: 'name', 'width':'15%'},
+            {title : 'Type', data: "typeName", name: 'type_id', 'width':'15%'},
             {title : 'Description', data: "description", name: 'description','width':'20%'},
-            {title : 'Created By', data: "created_by", name: 'created_by','width':'15%'},
+            {title : 'Created By', data: "userName", name: 'created_by','width':'15%'},
             {title : 'Port','width':'8%', 'render' : function(data, type, row, ind){
             		return '<span class="badge badge-primary" onclick="show_port_modal()" style="cursor: pointer;">Show</span>';
             	}
