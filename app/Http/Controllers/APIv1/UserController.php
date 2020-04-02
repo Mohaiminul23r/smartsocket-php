@@ -152,13 +152,19 @@ class UserController extends Controller
 	}
 
 	public function addDevice(Request $request)
-	{		
-		$validatedData = $request->validate([			
+	{
+		$validator = Validator::make($request->all(), [
 			'espId'   => 'bail|required|string|max:100|exists:devices',
 		]);
 
 		$user = $request->user();
-		$device = Device::where('espId', $validatedData['espId'])->first();
+		$device = Device::where('espId', $request->espId)->first();
+		$validatedData = $validator->after(function($validator) use ($user, $device){			
+			if($user->devices->contains($device->id))
+			{
+				$validator->errors()->add('espId','Already Added!');
+			}
+		})->validate();
 
 		$user->devices()->attach($device);
 
