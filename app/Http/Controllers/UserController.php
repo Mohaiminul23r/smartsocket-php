@@ -40,7 +40,7 @@ class UserController extends Controller
         $user_data = User::findOrFail($id)
                     ->with('mobiles')
                     ->get()->first();
-        $device_data = User::where('id',$id)->with('devices.type')->get()->first();
+        $device_data = User::where('id',$id)->with('devices.type','devices.ports')->get()->first();
         return view('users.view_details', compact('user_data', 'device_data'));
         
     }

@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'Types', 'titlePage' => __('Types')])
+@extends('layouts.app', ['activePage' => 'User Details', 'titlePage' => __('User Details')])
 @section('content')
 <div class="content p-2">
   <div class="container-fluid">
@@ -52,60 +52,117 @@
 			  </div>
 			</div>
           	</div>
-        	 <div class="table-responsive">
-                <table class="table">
-                  <thead class=" text-primary">
-                    <tr><th>
-                        Name
-                    </th>
-                    <th>
-                      Email
-                    </th>
-                    <th>
-                      Creation date
-                    </th>
-                    <th class="text-right">
-                      Actions
-                    </th>
-                  </tr></thead>
-                  <tbody>
-                                            <tr>
-                        <td>
-                          Admin Admin
-                        </td>
-                        <td>
-                          admin@material.com
-                        </td>
-                        <td>
-                          2020-02-24
-                        </td>
-                        <td class="td-actions text-right">
-                             <a rel="tooltip" class="btn btn-success btn-link" href="#" data-original-title="" title="">
-                              <i class="material-icons">edit</i>
-                              <div class="ripple-container"></div>
-                            </a>
-                                                    </td>
-                      </tr>
-                                        </tbody>
-                </table>
-              </div>
+              <div class="accordion" id="accordionExample">
+				  <div class="card border" style="background: aliceblue;">
+				    <div class="card-header p-0" id="headingOne">
+				      <h2 class="mb-0">
+				        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+				          <span style="color:black;font-size: 15px;" class="text-capitalize font-weight-bold font-italic">Show Device Details...</span>
+				        </button>
+				      </h2>
+				    </div>
+				    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+				      <div class="card-body">
+		                <table class="table table-striped table-bordered table-active" width="100%">
+			                 <thead>
+			                 	<tr>
+			                   		<th width="100%" colspan="6" class="border-success pt-2 pb-2 font-weight-bold" style="font-size:16px; text-align:center;    color: teal;">List of the Available Devices of {{$user_data->name}}</th>
+			                 	</tr>
+			                   	<tr>
+			                   		<th width="8%" class="pt-1 pb-1 font-weight-bold" style="font-size:15px;">SL</th>
+			                   		<th width="15%" class="pt-1 pb-1 font-weight-bold" style="font-size:15px;">Device Id</th>
+			                   		<th width="20%" class="pt-1 pb-1 font-weight-bold" style="font-size:15px;">Name</th>
+			                   		<th width="14%" class="pt-1 pb-1 font-weight-bold" style="font-size:15px;">Device Type</th>
+			                   		<th width="13%" class="pt-1 pb-1 font-weight-bold" style="font-size:15px;">Port</th>
+			                   		<th width="25%" class="pt-1 pb-1 font-weight-bold" style="font-size:15px;">Description</th>
+			                  	</tr>
+			              	</thead>
+			                 <tbody>
+			                 	@php
+			                 		$i = 1;
+			                 	@endphp
+			                 	@foreach($device_data->devices as $device)
+			                 		<tr>
+			                 			<td class="pt-1 pb-1">
+			                 				@php
+			                 					echo $i;
+			                 				@endphp
+			                 			</td>
+			                 			<td class="pt-1 pb-1">{{$device->espId}}</td>
+			                 			<td class="pt-1 pb-1">{{$device->name}}</td>
+			                 			<td class="pt-1 pb-1">{{$device->type->name}}</td>
+			                 			<td class="pt-1 pb-1">
+			                 				@foreach($device->ports as $port)
+			                 				<span class="badge badge-warning">{{$port->name}}</span>
+			                 				@endforeach
+			                 			</td>
+			                 			<td class="pt-1 pb-1">{{strip_tags($device->description)}}</td>
+			                 		</tr>
+			                 		@php
+			                 			$i++;
+			                 		@endphp
+			                 	@endforeach
+			                 </tbody>
+		                </table>
+				      </div>
+				    </div>
+				  </div>
+				  <div class="card border" style="background: aliceblue;">
+				    <div class="card-header p-0" id="headingTwo">
+				      <h2 class="mb-0">
+				        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+				         <span style="color:black;font-size: 15px;" class="text-capitalize font-weight-bold font-italic">Show Available Mobile Devices...</span>
+				        </button>
+				      </h2>
+				    </div>
+				    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+				      <div class="card-body">
+				       	<table class="table table-striped table-bordered table-active" width="100%">
+			                 <thead>
+			                 	<tr>
+			                   		<th width="100%" colspan="6" class="border-info pt-2 pb-2 font-weight-bold" style="font-size:16px; text-align:center;    color: darkslateblue;">List of the Available Mobiles of {{$user_data->name}}</th>
+			                 	</tr>
+			                   	<tr>
+			                   		<th width="15%" class="pt-1 pb-1 font-weight-bold" style="font-size:15px;">SL</th>
+			                   		<th width="30%" class="pt-1 pb-1 font-weight-bold" style="font-size:15px;">IMEI No</th>
+			                   		<th width="35%" class="pt-1 pb-1 font-weight-bold" style="font-size:15px;">User Name</th>
+			                   		<th width="20%" class="pt-1 pb-1 font-weight-bold" style="font-size:15px;">Status</th>
+			                  	</tr>
+			              	</thead>
+			                 <tbody>
+			                 	@php
+			                 		$i = 1;
+			                 	@endphp
+			                 	@foreach($user_data->mobiles as $mobile)
+			                 		<tr>
+			                 			<td class="pt-1 pb-1">
+			                 				@php
+			                 					echo $i;
+			                 				@endphp
+			                 			</td>
+			                 			<td class="pt-1 pb-1">{{$mobile->imei}}</td>
+			                 			<td class="pt-1 pb-1">{{$user_data->name}}</td>
+			                 			<td class="pt-1 pb-1">
+			                 				@if($mobile->status == 1)
+			                 				<span class="badge badge-success">Active</span>
+			                 				@elseif($mobile->status == 0)
+			                 				<span class="badge badge-danger">Not Active</span>
+			                 				@endif
+			                 			</td>
+			                 		</tr>
+			                 		@php
+			                 			$i++;
+			                 		@endphp
+			                 	@endforeach
+			                 </tbody>
+		                </table>
+				      </div>
+				    </div>
+				  </div>
+				</div>
           </div>
         </div>
       </div>
-{{--       <div class="col-md-12">
-        <div class="card">
-          <div class="card-header card-header-primary p-2">
-            <h6 class="card-title mt-0">List of all Types</h6>
-          </div>
-          <div class="card-body">
-            <div class="container border">
-                <div class="table-responsive">
-                    
-                </div> 
-            </div>
-          </div>
-        </div>
-      </div> --}}
     </div>
   </div>
 </div>
