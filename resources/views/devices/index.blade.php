@@ -10,6 +10,7 @@
           </div>
           <div class="card-body">
             @include('devices.form')
+            @include('devices.port_modal')
           </div>
         </div>
       </div>
@@ -36,6 +37,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$('#type').select2();
+	init_port_select2();
    ClassicEditor.create(document.querySelector('#description'), {
         toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList',
             'blockQuote'
@@ -84,7 +86,7 @@ $(document).ready(function(){
             {
                 'title' : '#SL',
                 'data' : 'id',
-                'width' : '10%',
+                'width' : '6%',
                 'align' : 'center',
                 'render' : function(data, type, row, ind){
                     var pageInfo = deviceDatatable.page.info();
@@ -92,10 +94,19 @@ $(document).ready(function(){
                 }
             },
             {title : 'Device Id', data: "espId", name: 'espId', 'width':'10%'},
-            {title : 'Device Name', data: "name", name: 'name', 'width':'15%'},
-            {title : 'Type', data: "type_id", name: 'type_id', 'width':'15%'},
+            {title : 'Name', data: "deviceName", name: 'name', 'width':'15%'},
+            {title : 'Type', data: "typeName", name: 'type_id', 'width':'15%'},
             {title : 'Description', data: "description", name: 'description','width':'20%'},
-            {title : 'Created By', data: "created_by", name: 'created_by','width':'15%'},
+            {title : 'Created By', data: "userName", name: 'created_by','width':'15%'},
+            {title : 'Port', 'width':'8%', 'render' : function(data, type, row, ind){
+            		let port = [];
+            		$.each(row.ports, function(ind, val){
+            			let span = '<span class="badge badge-primary">'+val.name+'</span>';
+            			port.push(span);
+            		});
+            		return port;
+            	}
+        	},
             {
                 'title' : 'Status',
                 'width':'15%',
@@ -113,7 +124,7 @@ $(document).ready(function(){
                 'title' : 'Action',
                 'data' : 'id', 
                 'class' : 'text-right',
-                'width' : '10%', 
+                'width' : '6%', 
                 'render' : function(data, type, row, ind){
                  dropdown_item = '<div class="dropdown">' +
                             '<a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
@@ -182,9 +193,22 @@ $(document).ready(function(){
          change_button();
          axios.get(''+utlt.siteUrl('devices/'+device_id+'/edit')+'')
          .then(response => {
-            console.log(response);
-            // $('#type option[value='+response.data.type_id+']').attr('selected','selected');
-            $("#type").val(response.data.type_id).trigger('click');
+         	//console.log(response.data.ports.length);
+            $("#type").val(null).trigger('change');
+            $("#port").val(null).trigger('change');
+            $('#device_name').val('');
+            $('#espId').val('');
+            window.description.setData('');
+            $("#type").val(response.data.type_id).trigger('change');
+            if(response.data.ports.length != 0){
+         		let ports = [];
+	            $.each(response.data.ports, function(ind, val){
+	            	ports.push(val.id);
+	            });	
+            	$('#port').val(ports).change();
+            }else if(response.data.ports.length == 0){
+            	init_port_select2();
+            }
             $('#device_name').val(response.data.name);
             $('#espId').val(response.data.espId);
             window.description.setData(response.data.description);
@@ -194,6 +218,8 @@ $(document).ready(function(){
      //update when button clicked
      $('#editBtn').click(function(){
          let edit_device_id = $('#device_id').val();
+         $(document).find('input[name="description"]').val('');
+         $(document).find('input[name="description"]').val(window.description.getData());
          axios.put(''+utlt.siteUrl('devices/'+edit_device_id)+'', $('#deviceForm').serialize())
          .then(response => {
             showToast("Successfully Updated !!", 'warning');
@@ -242,6 +268,15 @@ function reset_form(){
    $(document).find('input[name="description"]').val('');
    window.description.setData('');
    $("#type").val(null).trigger('change');
+   $("#port").val(null).trigger('change');
+}
+
+function show_port_modal(){
+	$('#portModal').modal('show');
+}
+
+function init_port_select2(){
+	$('#port').select2();
 }
 </script>
 @endpush

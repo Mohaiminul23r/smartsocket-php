@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Device;
+use App\Models\DevicePort;
 use App\Models\Type;
+use App\Models\Port;
 use Auth;
 
 class DeviceController extends Controller
@@ -21,7 +23,8 @@ class DeviceController extends Controller
             return $device->DataTableLoader($request);
         }
         $types = Type::all();
-        return view('devices.index',compact('types'));
+        $ports = Port::all();
+        return view('devices.index',compact('types','ports'));
     }
 
     /**
@@ -42,16 +45,26 @@ class DeviceController extends Controller
      */
     public function store(Request $request, Device $device)
     {
-        //dd($request->all());
         $request->validate([
-            'espId' => 'required',
+            'espId' => 'required|unique:devices,espId',
             'type_id' => 'required',
             'name' => 'required',
             'description' => 'required',
         ]);
         $postData = $request->all();
         $postData['created_by'] = Auth::id();
-        Device::create($postData);
+        $device = Device::create($postData);
+        $portData = array(
+            'device_id' => $device->id,
+            'port_id' => $request->port_id,
+        );
+        foreach($portData['port_id'] as $port){
+            $dpdata = [
+                'device_id'=>$device->id,
+                'port_id'=>$port,
+            ];
+            DevicePort::create($dpdata);
+        }
     }
 
     /**
@@ -73,6 +86,7 @@ class DeviceController extends Controller
      */
     public function edit(Device $device)
     {
+        $device = Device::where('id', $device->id)->with('ports')->get()->first();
         return $device;
     }
 
@@ -86,7 +100,7 @@ class DeviceController extends Controller
     public function update(Request $request, Device $device)
     {
         $request->validate([
-            'espId' => 'required',
+            'espId' => 'required|unique:devices,espId,'.$device->id,
             'type_id' => 'required',
             'name' => 'required',
             'description' => 'required',
@@ -94,6 +108,18 @@ class DeviceController extends Controller
         $updateData = $request->all();
         $updateData['modified_by'] = Auth::id();
         $device->update($updateData);
+        $device->ports->delete();
+        $portData = array(
+            'device_id' => $device->id,
+            'port_id' => $request->port_id,
+        );
+        foreach($portData['port_id'] as $port){
+            $dpdata = [
+                'device_id'=>$device->id,
+                'port_id'=>$port,
+            ];
+            DevicePort::create($dpdata);
+        }
     }
 
     /**

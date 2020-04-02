@@ -59,10 +59,14 @@ $(document).ready(function(){
                     return (ind.row + 1) + pageInfo.start;
                 }
             },
-            {title : 'Type Name', data: "name", name: 'name', 'width':'20%'},
+            {title : 'Type Name', data: "typeName", name: 'name', 'width':'20%'},
             {title : 'Description', data: "description", name: 'description','width':'30%'},
+<<<<<<< HEAD
             {title : 'Created By', data: "created_by", name: 'created_by','width':'15%'},
           
+=======
+            {title : 'Created By', data: "userName", name: 'created_by','width':'15%'},
+>>>>>>> f84c26c48bbc45c0283dfeacdae194079f4f7680
             {
                 'title' : 'Status',
                 'width':'15%',
