@@ -81,7 +81,7 @@ $(document).ready(function(){
                                 '<i class="fas fa-ellipsis-v"></i>' +
                             '</a>'+
                             '<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">'+
-                                '<button class="btn btn-link text-darker edit_btn p-0 m-1" data-id="' + data +'"><i class="fas fa-edit text-success m-2"></i> Edit</button><br>'+
+                                // '<button class="btn btn-link text-darker edit_btn p-0 m-1" data-id="' + data +'"><i class="fas fa-edit text-success m-2"></i> Edit</button><br>'+
                                 '<button class="btn btn-link text-darker view_btn p-0 m-1" data-id="' + data +'"><i class="fas fa-eye text-info m-2"></i> View</button><br>'+
                                 '<button class="btn btn-link text-darker delete_btn p-0 m-1" data-id="' + data +'"><i class="fas fa-trash-alt m-2 text-danger"></i> Delete</button>'+
                             '</div>'+
