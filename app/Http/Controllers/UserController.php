@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use App\Models\DeviceUser;
 
 class UserController extends Controller
 {
@@ -37,9 +38,10 @@ class UserController extends Controller
     public function viewDetails($id)
     {
         $user_data = User::findOrFail($id)
-                    ->with('devices', 'mobiles')
+                    ->with('mobiles')
                     ->get()->first();
-        return view('users.view_details', compact('user_data'));
+        $device_data = User::where('id',$id)->with('devices.type')->get()->first();
+        return view('users.view_details', compact('user_data', 'device_data'));
         
     }
     public function updateStatus(Request $request, User $user){
