@@ -29,7 +29,7 @@
                 @endif
                 <div class="row">
                   <label class="">{{ __('Name') }}</label>
-                  <div class="col-sm-4">
+                  <div class="col-sm-5">
                     <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                       <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="input-name" type="text" placeholder="{{ __('Name') }}" value="{{ old('name', auth()->user()->name) }}" required="true" aria-required="true"/>
                       @if ($errors->has('name'))
@@ -38,7 +38,7 @@
                     </div>
                   </div>
                    <label class="">{{ __('Email') }}</label>
-                  <div class="col-sm-4">
+                  <div class="col-sm-5">
                     <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
                       <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" id="input-email" type="email" placeholder="{{ __('Email') }}" value="{{ old('email', auth()->user()->email) }}" required />
                       @if ($errors->has('email'))
@@ -49,7 +49,7 @@
                 </div>
                <div class="row">
                   <label class="">{{ __('Phone') }}</label>
-                  <div class="col-sm-3">
+                  <div class="col-sm-5">
                     <div class="form-group{{ $errors->has('phone') ? ' has-danger' : '' }}">
                       <input class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" id="input-phone" type="text" placeholder="{{ __('Phone') }}" value="{{ old('name', auth()->user()->phone) }}" required="true" aria-required="true"/>
                       @if ($errors->has('phone'))
@@ -58,7 +58,7 @@
                     </div>
                   </div>
                    <label class="">{{ __('City') }}</label>
-                  <div class="col-sm-3">
+                  <div class="col-sm-5">
                     <div class="form-group{{ $errors->has('city') ? ' has-danger' : '' }}">
                       <input class="form-control{{ $errors->has('city') ? ' is-invalid' : '' }}" name="city" id="input-city" type="text" placeholder="{{ __('City') }}" value="{{ old('city', auth()->user()->city) }}" required />
                       @if ($errors->has('city'))
@@ -66,8 +66,10 @@
                       @endif
                     </div>
                   </div>
+                </div>
+                  <div class="row">
                   <label class="">{{ __('Country') }}</label>
-                  <div class="col-sm-3">
+                  <div class="col-sm-5">
                     <div class="form-group{{ $errors->has('country') ? ' has-danger' : '' }}">
                       <input class="form-control{{ $errors->has('country') ? ' is-invalid' : '' }}" name="country" id="input-country" type="text" placeholder="{{ __('Countrt') }}" value="{{ old('country', auth()->user()->country) }}" required />
                       @if ($errors->has('country'))
@@ -75,8 +77,8 @@
                       @endif
                     </div>
                   </div>
-                  <div class="col-sm-3">
-                  <img class="avatar" src="{{ asset('upload')}}/image/6.jpg " style="width:150px; height:150px; border-radius:50%; margin-right:5px;">         
+                  <div class="col-sm-5">
+                  <img class="avatar" src="{{ asset('upload')}}/image/6.jpg " style="width:100px; height:100px; border-radius:50%; margin-right:5px;">         
                   <label>Update Profile Image</label>
                   <input type="file" name="image" id="image">
                   <input type="hidden" name="token" value="{{ csrf_token() }}}">
