@@ -194,7 +194,6 @@ function change_button(){
 }
 
 function index(){
-   //window.location.replace(utlt.siteUrl('types'));
    $('#saveBtn').removeClass('d-none');
    $('#editBtn').addClass('d-none');
    $('#backBtn').addClass('d-none');

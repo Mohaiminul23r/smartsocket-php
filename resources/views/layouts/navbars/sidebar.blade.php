@@ -47,7 +47,7 @@
           </ul>
         </div>
       </li>
-      <li class="nav-item {{ ($activePage == 'profile' || $activePage == 'user-management') ? ' active' : '' }}">
+      <li class="nav-item {{ ($activePage == 'profile' || $activePage == 'User List') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#userManagement" aria-expanded="true">
           <i class="fas fa-user-cog"></i>
           <p>{{ __('User Management') }}
@@ -62,7 +62,7 @@
                 <span class="sidebar-normal">{{ __('User profile') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+            <li class="nav-item{{ $activePage == 'User List' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('user.index') }}">
                 <span class="sidebar-mini"><i class="fas fa-game-console-handheld"></i></span>
                 <span class="sidebar-normal"> {{ __('User List') }} </span>
