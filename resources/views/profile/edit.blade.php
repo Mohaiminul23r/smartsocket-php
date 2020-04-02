@@ -28,8 +28,8 @@
                   </div>
                 @endif
                 <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Name') }}</label>
-                  <div class="col-sm-7">
+                  <label class="">{{ __('Name') }}</label>
+                  <div class="col-sm-4">
                     <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                       <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="input-name" type="text" placeholder="{{ __('Name') }}" value="{{ old('name', auth()->user()->name) }}" required="true" aria-required="true"/>
                       @if ($errors->has('name'))
@@ -37,10 +37,8 @@
                       @endif
                     </div>
                   </div>
-                </div>
-                <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Email') }}</label>
-                  <div class="col-sm-7">
+                   <label class="">{{ __('Email') }}</label>
+                  <div class="col-sm-4">
                     <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
                       <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" id="input-email" type="email" placeholder="{{ __('Email') }}" value="{{ old('email', auth()->user()->email) }}" required />
                       @if ($errors->has('email'))
@@ -48,6 +46,41 @@
                       @endif
                     </div>
                   </div>
+                </div>
+               <div class="row">
+                  <label class="">{{ __('Phone') }}</label>
+                  <div class="col-sm-3">
+                    <div class="form-group{{ $errors->has('phone') ? ' has-danger' : '' }}">
+                      <input class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" id="input-phone" type="text" placeholder="{{ __('Phone') }}" value="{{ old('name', auth()->user()->phone) }}" required="true" aria-required="true"/>
+                      @if ($errors->has('phone'))
+                        <span id="phone-error" class="error text-danger" for="input-phone">{{ $errors->first('phone') }}</span>
+                      @endif
+                    </div>
+                  </div>
+                   <label class="">{{ __('City') }}</label>
+                  <div class="col-sm-3">
+                    <div class="form-group{{ $errors->has('city') ? ' has-danger' : '' }}">
+                      <input class="form-control{{ $errors->has('city') ? ' is-invalid' : '' }}" name="city" id="input-city" type="text" placeholder="{{ __('City') }}" value="{{ old('city', auth()->user()->city) }}" required />
+                      @if ($errors->has('city'))
+                        <span id="city-error" class="error text-danger" for="input-city">{{ $errors->first('city') }}</span>
+                      @endif
+                    </div>
+                  </div>
+                  <label class="">{{ __('Country') }}</label>
+                  <div class="col-sm-3">
+                    <div class="form-group{{ $errors->has('country') ? ' has-danger' : '' }}">
+                      <input class="form-control{{ $errors->has('country') ? ' is-invalid' : '' }}" name="country" id="input-country" type="text" placeholder="{{ __('Countrt') }}" value="{{ old('country', auth()->user()->country) }}" required />
+                      @if ($errors->has('country'))
+                        <span id="country-error" class="error text-danger" for="input-country">{{ $errors->first('country') }}</span>
+                      @endif
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                  <img class="avatar" src="{{ asset('upload')}}/image/6.jpg " style="width:150px; height:150px; border-radius:50%; margin-right:5px;">         
+                  <label>Update Profile Image</label>
+                  <input type="file" name="image" id="image">
+                  <input type="hidden" name="token" value="{{ csrf_token() }}}">
+                </div>
                 </div>
               </div>
               <div class="card-footer ml-auto mr-auto">

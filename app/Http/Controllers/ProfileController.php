@@ -26,6 +26,14 @@ class ProfileController extends Controller
      */
     public function update(ProfileRequest $request)
     {
+   
+      if($request->hasFile('image')){
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            Image::make($image)->resize(300, 300)->save( public_path('/upload/avatars/' . $filename ) );
+             
+        } 
+        //dd($request);
         auth()->user()->update($request->all());
 
         return back()->withStatus(__('Profile successfully updated.'));
