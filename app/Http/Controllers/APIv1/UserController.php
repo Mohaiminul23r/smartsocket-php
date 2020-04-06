@@ -198,13 +198,13 @@ class UserController extends Controller
 	public function addMobile(Request $request)
 	{		
 		$validatedData = $request->validate([			
-			'imei'    => 'bail|required|string|max:50|unique:mobiles',
+			'uuid'    => 'bail|required|string|max:50|unique:mobiles',
 		]);
 
 		$user = $request->user();
 		$mobile = Mobile::create([
 			'user_id' => $request->user()->id, 
-			'imei' => $validatedData['imei'], 
+			'uuid' => $validatedData['uuid'], 
 			'status' => 1,
 			'created_by' => $request->user()->id
 		]);	
@@ -225,11 +225,11 @@ class UserController extends Controller
 	public function removeMobile(Request $request)
 	{
 		$validatedData =  $request->validate([			
-			'imei'    => 'bail|required|string|max:50|exists:mobiles',
+			'uuid'    => 'bail|required|string|max:50|exists:mobiles',
 		]);
 
 		$user = $request->user();
-		$device = Mobile::where('imei', $validatedData['imei'])->first();
+		$device = Mobile::where('uuid', $validatedData['uuid'])->first();
 
 		$device->delete();
 

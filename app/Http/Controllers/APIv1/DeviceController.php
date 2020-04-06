@@ -91,14 +91,14 @@ class DeviceController extends Controller
 	{
 		$validatedData =  $request->validate([
 			'espId'   => 'bail|required|string|max:100|exists:devices',
-			'imei'    => 'bail|required|string|max:50|exists:mobiles',
+			'uuid'    => 'bail|required|string|max:50|exists:mobiles',
 			'port'    => 'bail|required|string|max:50|exists:ports,name',
 			'status'  => 'bail|required|boolean'
 		]);
 
 		$device = Device::where('espId', $validatedData['espId'])->first();
 
-		$mobile = Mobile::where('imei', $validatedData['imei'])->first();
+		$mobile = Mobile::where('uuid', $validatedData['uuid'])->first();
 
 		$port = Port::where('name', $validatedData['port'])->first();
 

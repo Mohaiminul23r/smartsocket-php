@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Mobile extends Model
 {
 	protected $fillable = [
-		'imei',
+		'uuid',
 		'user_id',
 		'status',
 		'created_by',
