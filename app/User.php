@@ -16,6 +16,7 @@ class User extends Authenticatable implements MustVerifyEmail
 	 *
 	 * @var array
 	 */
+	use Models\CommonTrait;
 	protected $fillable = [
 		'name', 'email', 'password', 'phone', 'city', 'country', 'image'
 	];
