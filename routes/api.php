@@ -35,10 +35,10 @@ Route::prefix('v1')->namespace('APIv1')->group(function () {
 			Route::put('change-profile-pic', 'UserController@changeProfilePic')->name('changeProfilePic');
 			Route::get('user-device', 'UserController@getDevice')->name('getDevice');
 			Route::post('user-device', 'UserController@addDevice')->name('addDevice');
-			Route::delete('user-device', 'UserController@removeDevice')->name('removeDevice');
+			Route::delete('user-device/{espId}', 'UserController@removeDevice')->name('removeDevice');
 			Route::get('user-mobile', 'UserController@getMobile')->name('getMobile');
 			Route::post('user-mobile', 'UserController@addMobile')->name('addMobile');
-			Route::delete('user-mobile', 'UserController@removeMobile')->name('removeMobile');
+			Route::delete('user-mobile/{uuid}', 'UserController@removeMobile')->name('removeMobile');
 			Route::put('device-state', 'DeviceController@updateState')->name('updateState');
 		});
 	});	
