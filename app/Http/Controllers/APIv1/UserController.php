@@ -183,14 +183,20 @@ class UserController extends Controller
 
 	public function removeDevice(Request $request, $espId)
 	{
+		$user = $request->user();
+
 		$validator = Validator::make(['espId' => $espId], [
 			'espId'   => 'bail|required|string|max:100|exists:devices',
 		]);
-
-		$validatedData = $validator->validate();		
-
-		$user = $request->user();
+		
 		$device = Device::where('espId', $validatedData['espId'])->first();
+		$validatedData = $validator->after(function($validator) use ($user, $device){			
+			if(!$user->devices->contains($device->id))
+			{
+				$validator->errors()->add('espId','Device Not Found!');
+			}
+		})->validate();	
+
 
 		$user->devices()->detach($device);
 
