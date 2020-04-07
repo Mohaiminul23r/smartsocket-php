@@ -72,7 +72,16 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        //
+        $role_permission = $role->permissions->pluck('id')->all();
+        $result = Permission::all();
+        $permissions = [];
+        foreach ($result as $key => $item) {
+            $permissions[$item->module][$key] = $item;
+        }
+        
+        array_multisort($permissions,SORT_DESC);
+
+        return view('roles.edit',compact('role','permissions','role_permission'));
     }
 
     /**
@@ -84,7 +93,9 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        //
+        $data = $request->only('name','description');
+        $role->update($data);
+        $role->Permissions()->sync($request->permission);
     }
 
     /**

@@ -88,6 +88,11 @@ $(document).ready(function(){
         let url = 'roles/'+($(this).attr('data-id'));
         utlt.Delete(url,'#roleDatatable');
     });
+
+    $(document).on('click', '.edit_btn', function(){
+        let edit_id = $(this).attr('data-id');
+        window.location.replace(''+utlt.siteUrl('roles/'+edit_id+'/edit')+'');
+    });
 });
 </script>
 @endpush

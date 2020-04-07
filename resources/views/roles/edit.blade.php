@@ -6,10 +6,10 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-primary p-2">
-            <h6 class="card-title">Create New Role</h6>
+            <h6 class="card-title">Edit Role Details</h6>
           </div>
           <div class="card-body">
-            @include('roles.create_form')
+            @include('roles.edit_form')
           </div>
         </div>
       </div>
@@ -20,8 +20,8 @@
 @push('js')
 <script type="text/javascript">
 $(document).ready(function(){
-	//checkbox select for permissions
-    $('input:checkbox.group-checkbox').click(function () {
+	//group checkbox 
+	$('input:checkbox.group-checkbox').click(function () {
         var array = [];
         var parent = $(this).closest('.group-parent');
         $(parent).find('.sub-checkbox').prop("checked", $(this).prop("checked"))
@@ -36,43 +36,38 @@ $(document).ready(function(){
         }
     });
 
-    $(document).on('click', '.delete_btn', function(){
-        let url = 'ports/'+($(this).attr('data-id'));
-        utlt.Delete(url,'#roleDatatable');
-    });
-
     //redirect to role index
     $(document).on('click', '#cancelBtn', function(){
         window.location.replace(''+utlt.siteUrl('roles')+'');
     });
 
-    //insert data for roles
-    $(document).on('click', '#saveBtn', function(){
-        $(document).find('#roleForm .has-danger').removeClass('has-danger');
-        $(document).find('#roleForm').find('.help-block').empty();
-         axios.post(''+utlt.siteUrl('roles')+'', $('#roleForm').serialize())
+     //update when button clicked
+     $('#editBtn').click(function(){
+         let role_id = $('#edit_role_id').val();
+         axios.put(''+utlt.siteUrl('roles/'+role_id)+'', $('#roleEditForm').serialize())
          .then(response => {
-            showToast("Successfully Added !!");
-            $(document).find('#roleForm').trigger("reset");
+            showToast("Successfully Updated !!", 'warning');
+            $(document).find('#roleEditForm').trigger("reset");
             setTimeout(function(){
             	window.location.replace(''+utlt.siteUrl('roles')+'');
-            }, 1000);           
+            }, 1000);
          })
          .catch(error => {
             $.each(error.response.data.payload.errors, function(inputName, errors){
-                $("#roleForm [name="+inputName+"]").parent().removeClass('has-danger').addClass('has-danger');
+                $("#roleEditForm [name="+inputName+"]").parent().removeClass('has-danger').addClass('has-danger');
                 if(typeof errors == "object"){
-                    $("#roleForm [name^="+inputName+"]").parent().find('.help-block').empty();
+                    $("#roleEditForm [name^="+inputName+"]").parent().find('.help-block').empty();
                     $.each(errors, function(indE, valE){
-                        $("#roleForm [name^="+inputName+"]").parent().find('.help-block').removeClass('d-none').append(valE+"<br>");
+                      console.log(valE);
+                        $("#roleEditForm [name^="+inputName+"]").parent().find('.help-block').removeClass('d-none').append(valE+"<br>");
                         $('.help-block').css("color", "red");
                     });
                 }else{
-                    $("#roleForm [name^="+inputName+"]").parent().find('.help-block').removeClass('d-none').html(valE);
+                    $("#roleEditForm [name^="+inputName+"]").parent().find('.help-block').removeClass('d-none').html(valE);
                 }
             });
          });
-    });
+     });
 });
 </script>
 @endpush
