@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('v1')->namespace('APIv1')->group(function () {	
 	
 	Route::get('device-state', 'DeviceController@state')->name('state');
+	Route::post('forget-password', 'UserController@sendPasswordLink')->name('forgetPassword');
 
 	Route::middleware('SDLCrypt')->group(function(){
 		

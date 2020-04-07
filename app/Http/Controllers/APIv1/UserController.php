@@ -13,6 +13,7 @@ use Illuminate\Auth\Events\Registered;
 use File as LaraFile;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Password;
 use DB;
 use Auth;
 
@@ -244,5 +245,27 @@ class UserController extends Controller
 		$device->delete();
 
 		return $this->sendJson(201, true, config('rest.response.remove.code'), config('rest.response.remove.message'), 'success');
+	}
+
+	public function sendPasswordLink(Request $request)
+	{
+		
+		$validator = Validator::make($request->all(), [
+			'email' => 'bail|required|string|email|max:255|exists:users',			
+		]);
+
+		$validatedData = $validator->validate();
+
+		$credentials = ['email' => $request->email];
+		$response = Password::sendResetLink($credentials, function (Message $message) {
+			$message->subject($this->getEmailSubject());
+		});
+
+		switch ($response) {
+			case Password::RESET_LINK_SENT:				
+				return $this->sendJson(200, true, config('rest.response.success.code'), trans($response), 'success');
+			case Password::INVALID_USER:				
+				return $this->sendJson(422, true, config('rest.response.error.code'), ['email' => trans($response)], 'danger');
+		}
 	}
 }
