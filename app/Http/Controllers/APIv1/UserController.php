@@ -189,7 +189,7 @@ class UserController extends Controller
 			'espId'   => 'bail|required|string|max:100|exists:devices',
 		]);
 		
-		$device = Device::where('espId', $validatedData['espId'])->first();
+		$device = Device::where('espId', $espId)->first();
 		$validatedData = $validator->after(function($validator) use ($user, $device){			
 			if(!$user->devices->contains($device->id))
 			{
