@@ -181,11 +181,13 @@ class UserController extends Controller
 	
 	}
 
-	public function removeDevice(Request $request)
+	public function removeDevice(Request $request, $espId)
 	{
-		$validatedData =  $request->validate([			
+		$validator = Validator::make(['espId' => $espId], [
 			'espId'   => 'bail|required|string|max:100|exists:devices',
 		]);
+
+		$validatedData = $validator->validate();		
 
 		$user = $request->user();
 		$device = Device::where('espId', $validatedData['espId'])->first();
@@ -222,11 +224,13 @@ class UserController extends Controller
 	
 	}
 
-	public function removeMobile(Request $request)
+	public function removeMobile(Request $request, $uuid)
 	{
-		$validatedData =  $request->validate([			
+		$validator = Validator::make(['uuid' => $uuid], [
 			'uuid'    => 'bail|required|string|max:50|exists:mobiles',
 		]);
+
+		$validatedData = $validator->validate();
 
 		$user = $request->user();
 		$device = Mobile::where('uuid', $validatedData['uuid'])->first();
