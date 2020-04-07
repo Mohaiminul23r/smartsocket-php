@@ -13,6 +13,7 @@ use Illuminate\Auth\Events\Registered;
 use File as LaraFile;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Password;
 use DB;
 use Auth;
 
@@ -181,14 +182,22 @@ class UserController extends Controller
 	
 	}
 
-	public function removeDevice(Request $request)
+	public function removeDevice(Request $request, $espId)
 	{
-		$validatedData =  $request->validate([			
+		$user = $request->user();
+
+		$validator = Validator::make(['espId' => $espId], [
 			'espId'   => 'bail|required|string|max:100|exists:devices',
 		]);
+		
+		$device = Device::where('espId', $espId)->first();
+		$validatedData = $validator->after(function($validator) use ($user, $device){			
+			if(!$user->devices->contains($device->id))
+			{
+				$validator->errors()->add('espId','Device Not Found!');
+			}
+		})->validate();	
 
-		$user = $request->user();
-		$device = Device::where('espId', $validatedData['espId'])->first();
 
 		$user->devices()->detach($device);
 
@@ -222,11 +231,13 @@ class UserController extends Controller
 	
 	}
 
-	public function removeMobile(Request $request)
+	public function removeMobile(Request $request, $uuid)
 	{
-		$validatedData =  $request->validate([			
+		$validator = Validator::make(['uuid' => $uuid], [
 			'uuid'    => 'bail|required|string|max:50|exists:mobiles',
 		]);
+
+		$validatedData = $validator->validate();
 
 		$user = $request->user();
 		$device = Mobile::where('uuid', $validatedData['uuid'])->first();
@@ -234,5 +245,27 @@ class UserController extends Controller
 		$device->delete();
 
 		return $this->sendJson(201, true, config('rest.response.remove.code'), config('rest.response.remove.message'), 'success');
+	}
+
+	public function sendPasswordLink(Request $request)
+	{
+		
+		$validator = Validator::make($request->all(), [
+			'email' => 'bail|required|string|email|max:255|exists:users',			
+		]);
+
+		$validatedData = $validator->validate();
+
+		$credentials = ['email' => $request->email];
+		$response = Password::sendResetLink($credentials, function (Message $message) {
+			$message->subject($this->getEmailSubject());
+		});
+
+		switch ($response) {
+			case Password::RESET_LINK_SENT:				
+				return $this->sendJson(200, true, config('rest.response.success.code'), trans($response), 'success');
+			case Password::INVALID_USER:				
+				return $this->sendJson(422, true, config('rest.response.error.code'), ['email' => trans($response)], 'danger');
+		}
 	}
 }
