@@ -68,6 +68,12 @@
                 <span class="sidebar-normal"> {{ __('User List') }} </span>
               </a>
             </li>
+            <li class="nav-item{{ $activePage == 'Roles' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('roles.index') }}">
+                <span class="sidebar-mini"><i class="fas fa-user-lock"></i></span>
+                <span class="sidebar-normal"> {{ __('Manage Role') }} </span>
+              </a>
+            </li>
           </ul>
         </div>
       </li>

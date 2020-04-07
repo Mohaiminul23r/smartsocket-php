@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6e2a9d27f425bc54f45f21256b880129",
+    "content-hash": "5107d79bdef27a20745cf5b76834206b",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1091,6 +1091,7 @@
                     "email": "jakub.onderka@gmail.com"
                 }
             ],
+            "abandoned": "php-parallel-lint/php-console-color",
             "time": "2018-09-29T17:23:10+00:00"
         },
         {
@@ -1137,7 +1138,48 @@
                 }
             ],
             "description": "Highlight PHP code in terminal",
+            "abandoned": "php-parallel-lint/php-console-highlighter",
             "time": "2018-09-29T18:48:56+00:00"
+        },
+        {
+            "name": "kawsarjoy/rolepermission",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kawsarjoy/rolepermission.git",
+                "reference": "bd25339c77623f75f89cb5b4937321e067a883c4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kawsarjoy/rolepermission/zipball/bd25339c77623f75f89cb5b4937321e067a883c4",
+                "reference": "bd25339c77623f75f89cb5b4937321e067a883c4",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "KawsarJoy\\RolePermission\\RolePermissionServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "KawsarJoy\\RolePermission\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mohammad Abu Kawsar",
+                    "email": "engabukawsar@gmail.com"
+                }
+            ],
+            "description": "A role permission package for laravel",
+            "time": "2019-11-19T09:25:35+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",
@@ -6717,7 +6759,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "kawsarjoy/rolepermission": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
