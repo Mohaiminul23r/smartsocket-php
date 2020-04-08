@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\User;
+use App\Models\Role;
+use App\Models\Permission;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -27,7 +30,8 @@ class UserController extends Controller
             $user = new User();
             return $user->DataTableLoader($request);
         }
-        return view('users.index');
+        $roles = Role::all();
+        return view('users.index',compact('roles'));
     }
 
     public function destroy(User $user)
@@ -41,7 +45,11 @@ class UserController extends Controller
                     ->with('mobiles')
                     ->get()->first();
         $device_data = User::where('id',$id)->with('devices.type','devices.ports')->get()->first();
-        return view('users.view_details', compact('user_data', 'device_data'));
+
+        $user = user::findOrFail($id);
+        $user_roles = $user->roles->pluck('id')->all();
+        $roles = Role::all();
+        return view('users.view_details', compact('user_data', 'device_data','roles','user_roles'));
         
     }
     public function updateStatus(Request $request, User $user){
@@ -49,5 +57,15 @@ class UserController extends Controller
             $user->status = $request->status;
         }
         return (($user->update()) ? 1 : 0);
+    }
+
+    public function getUserRole($id){
+        $user = user::findOrFail($id);
+        $user_roles = $user->roles->pluck('id')->all();
+        return $user_roles;
+    }
+
+    public function saveAssignedRole(Request $request, User $user){
+        $user->roles()->sync($request->role);
     }
 }

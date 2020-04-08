@@ -9,11 +9,12 @@
                         <h5 class="card-title ">User List</h5>
                     </div>
                     <div class="card-body">
-                          <div class="row">
+                          {{-- <div class="row">
                             <div class="col-12 text-right">
                               <a href="#" class="btn btn-sm btn-primary">Add user</a>
                             </div>
-                          </div>
+                          </div> --}}
+                          @include('users.create_role_modal')
                           <div class="table-responsive">
                             <table id="userDatatable" class="table table-sm mt-3 mb-3 table-striped" style="width:100%;">
                             </table>
@@ -27,6 +28,7 @@
 @endsection
 @push('js')
 <script type="text/javascript">
+var roles    = <?php echo json_encode($roles)?>;
 $(document).ready(function(){
     userDatatable = $('#userDatatable').DataTable({
         dom: '<"row"<"col-12 col-sm-6"l><"col-12 col-sm-6"f><"col-12 col-sm-12"t><"col-12 col-sm-6"i><"col-12 col-sm-6"p>>',
@@ -52,14 +54,12 @@ $(document).ready(function(){
                     return (ind.row + 1) + pageInfo.start;
                 }
             },
-            {title : 'Name', data: "name", name: 'name', 'width':'15%'},
-            {title : 'Email', data: "email", name: 'email','width':'20%'},
-            {title : 'Contact No', data: "phone", name: 'phone','width':'15%'},
-            {title : 'City', data: "city", name: 'city','width':'10%'},
-            {title : 'Country', data: "country", name: 'country','width':'15%'},
+            {title : 'Name', data: "name", name: 'name', 'width':'25%'},
+            {title : 'Email', data: "email", name: 'email','width':'25%'},
+            {title : 'Contact No', data: "phone", name: 'phone','width':'20%'},
             {
                 'title' : 'Status',
-                'width':'10%',
+                'width':'20%',
                 'render' : function(data, type, row, ind){
                    $status = '<div class="togglebutton">'+
                               ' <label>'+
@@ -81,7 +81,7 @@ $(document).ready(function(){
                                 '<i class="fas fa-ellipsis-v"></i>' +
                             '</a>'+
                             '<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">'+
-                                // '<button class="btn btn-link text-darker edit_btn p-0 m-1" data-id="' + data +'"><i class="fas fa-edit text-success m-2"></i> Edit</button><br>'+
+                                '<button class="btn btn-link text-darker assign_role p-0 m-1" data-id="' + data +'"><i class="fas fa-user-times text-success m-2"></i>Assign Role</button><br>'+
                                 '<button class="btn btn-link text-darker view_btn p-0 m-1" data-id="' + data +'"><i class="fas fa-eye text-info m-2"></i> View</button><br>'+
                                 '<button class="btn btn-link text-darker delete_btn p-0 m-1" data-id="' + data +'"><i class="fas fa-trash-alt m-2 text-danger"></i> Delete</button>'+
                             '</div>'+
@@ -109,6 +109,34 @@ $(document).ready(function(){
         window.location.replace(utlt.siteUrl('user/view-details/'+u_id+''));
     });
 
+    $(document).on('click', '.assign_role', function(){
+        let u_id = $(this).attr('data-id');
+        $("#user_id").val(u_id);
+        $('#assignRoleModal').modal('show');
+        axios.get(''+utlt.siteUrl('user/get-role/'+u_id+'')+'').then(function(response){
+                $.each(response.data, function(ind, val){
+                    $(document).find("#assign_form input[type=checkbox][value="+val+"]").prop("checked",true);
+                });
+            });
+        });
+
+
+    $(document).on('click', '#assign_role_btn', function(){
+        $('#assignRoleModal').modal('show');
+        let u_id = $("#user_id").val();
+        axios.post(''+utlt.siteUrl('user/assign-roles/'+u_id+'')+'', $('#assign_form').serialize())
+        .then(function(response){
+            showToast("Successfully Assigned !!");
+            setTimeout(function(){
+                $('#assignRoleModal').modal('hide');
+            }, 200);  
+            $(document).find('#assign_form').trigger("reset");
+        });
+    });
+
+    $(document).on('click', '#modal_close_btn', function(){
+        $(document).find('#assign_form').trigger("reset");
+    });
 });
 </script>
 @endpush

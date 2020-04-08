@@ -10,7 +10,6 @@
           </div>
           <div class="card-body">
             @include('devices.form')
-            @include('devices.port_modal')
           </div>
         </div>
       </div>

@@ -34,12 +34,14 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('roles', 'RoleController');
 	Route::get('/role/get-data-json', "RoleController@getDataForDataTable")->name('roles.getDataForDataTable');
 	Route::resource('permissions', 'PermissionController');
+	Route::get('user/get-role/{id}', 'UserController@getUserRole')->name('user.getRole');
 });
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'UserController', ['except' => ['show']]);
 	Route::post('user/updateStatus/{user}', 'UserController@updateStatus')->name('user.updateStatus');
 	Route::get('user/view-details/{id}', 'UserController@viewDetails')->name('user.viewDetails');
+	Route::post('user/assign-roles/{user}', 'UserController@saveAssignedRole')->name('user.saveAssignedRole');
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
