@@ -161,7 +161,10 @@ class UserController extends Controller
 		$user = $request->user();
 		$device = Device::where('espId', $request->espId)->first();
 		$validatedData = $validator->after(function($validator) use ($user, $device){			
-			if($user->devices->contains($device->id))
+			if($device == null){
+				$validator->errors()->add('espId','Device not found!');
+			}
+			else if($user->devices->contains($device->id))
 			{
 				$validator->errors()->add('espId','Already Added!');
 			}
@@ -192,7 +195,7 @@ class UserController extends Controller
 		
 		$device = Device::where('espId', $espId)->first();
 		$validatedData = $validator->after(function($validator) use ($user, $device){			
-			if(!$user->devices->contains($device->id))
+			if($device == null || !$user->devices->contains($device->id))
 			{
 				$validator->errors()->add('espId','Device Not Found!');
 			}
