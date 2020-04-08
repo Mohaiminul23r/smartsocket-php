@@ -23,6 +23,20 @@ class UserController extends Controller
     // {
     //     return view('users.index', ['users' => $model->paginate(15)]);
     // }
+    public function __construct()
+    {
+        $this->middleware('auth');
+        
+        $this->middleware(function ($request, $next) {
+            
+            if(env('ROLE_ENABLE',0) == 1){                
+                if (!$request->user()->hasPermission($request->route()->action['as'])){
+                    return redirect('warning');
+                }
+            }
+            return $next($request);
+        });
+    }
 
     public function index(Request $request, User $model)
     {
@@ -42,14 +56,10 @@ class UserController extends Controller
     public function viewDetails($id)
     {
         $user_data = User::findOrFail($id)
-                    ->with('mobiles')
+                    ->with('mobiles','roles')
                     ->get()->first();
         $device_data = User::where('id',$id)->with('devices.type','devices.ports')->get()->first();
-
-        $user = user::findOrFail($id);
-        $user_roles = $user->roles->pluck('id')->all();
-        $roles = Role::all();
-        return view('users.view_details', compact('user_data', 'device_data','roles','user_roles'));
+        return view('users.view_details', compact('user_data', 'device_data'));
         
     }
     public function updateStatus(Request $request, User $user){

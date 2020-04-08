@@ -47,6 +47,14 @@
                        	@endif
                        </td>
                     </tr>
+                    <tr>
+                       <th width="20%" class="border-0 p-1 pl-2">Assigned Role:</th>
+                       <td width="80%" class="border-0 p-1">
+                       	@foreach($user_data->roles as $role)
+                       		<span class="badge badge-info">{{$role->name}}</span><span class="pl-2 font-weight-bold">{{$role->description}}</span>
+                       	@endforeach
+                       </td>
+                    </tr>
                    </tbody>
                 </table>
 			  </div>
