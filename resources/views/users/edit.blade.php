@@ -77,7 +77,9 @@
                 </div>
               </div>
               <div class="card-footer ml-auto mr-auto">
+                <button type="" style="font-size:14px;" class="btn btn-outline-info text-capitalize pb-2 pt-2"><a href="{{ route('user.index') }}">{{ __('Cancel') }}</a></button>
                 <button type="submit" style="font-size:14px;" class="btn btn-outline-success text-capitalize pb-2 pt-2">{{ __('Update User') }}</button>
+                
               </div>
             </div>
           </form>
