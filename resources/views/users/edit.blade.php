@@ -1,15 +1,15 @@
-@extends('layouts.app', ['activePage' => 'profile', 'titlePage' => __('User Profile')])
+@extends('layouts.app', ['activePage' => 'Users', 'titlePage' => __('User Details')])
 @section('content')
   <div class="content">
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <form method="post" action="{{ route('profile.update') }}" autocomplete="off" class="form-horizontal">
+          <form method="post" action="{{ route('user.update') }}" autocomplete="off" class="form-horizontal">
             @csrf
             @method('put')
             <div class="card">
               <div class="card-header card-header-primary p-2 pl-4">
-                <h4 class="card-title">{{ __('Edit Profile') }}</h4>
+                <h4 class="card-title">{{ __('Edit User') }}</h4>
               </div>
               <div class="card-body">
                 @if (session('status'))
@@ -74,79 +74,10 @@
                       @endif
                     </div>
                   </div>
-                  <div class="col-md-6">
-                    @if(auth()->user()->image == null)
-                      <img class="avatar" src="{{asset('image/Headshot-Placeholder-1.png')}}" style="width:100px; height:100px; border-radius:50%; margin-right:5px;">
-                    @else
-                      <img class="avatar" src="{{url(auth()->user()->image)}}" style="width:100px; height:100px; border-radius:50%; margin-right:5px;">
-                    @endif
-                  <input type="file" name="image" id="image">
-                  <input type="hidden" name="token" value="{{ csrf_token() }}}">
-                </div>
                 </div>
               </div>
               <div class="card-footer ml-auto mr-auto">
-                <button type="submit" style="font-size:14px;" class="btn btn-outline-success text-capitalize pb-2 pt-2">{{ __('Update Profile') }}</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <form method="post" action="{{ route('profile.password') }}" class="form-horizontal">
-            @csrf
-            @method('put')
-            <div class="card">
-              <div class="card-header card-header-primary p-2 pl-4">
-                <h4 class="card-title">{{ __('Change password') }}</h4>
-              </div>
-              <div class="card-body ">
-                @if (session('status_password'))
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <div class="alert alert-success">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                          <i class="material-icons">close</i>
-                        </button>
-                        <span>{{ session('status_password') }}</span>
-                      </div>
-                    </div>
-                  </div>
-                @endif
-                <div class="row">
-                  <label class="col-md-3 col-form-label font-weight-bold" for="input-current-password">{{ __('Current Password') }}</label>
-                  <div class="col-md-4">
-                    <div class="form-group{{ $errors->has('old_password') ? ' has-danger' : '' }}">
-                      <input class="border pl-2 form-control{{ $errors->has('old_password') ? ' is-invalid' : '' }}" input type="password" name="old_password" id="input-current-password" placeholder="{{ __('Current Password') }}" value="" required />
-                      @if ($errors->has('old_password'))
-                        <span id="name-error" class="error text-danger" for="input-name">{{ $errors->first('old_password') }}</span>
-                      @endif
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <label class="col-md-3 col-form-label font-weight-bold" for="input-password">{{ __('New Password') }}</label>
-                  <div class="col-md-4">
-                    <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
-                      <input class="border pl-2 form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" id="input-password" type="password" placeholder="{{ __('New Password') }}" value="" required />
-                      @if ($errors->has('password'))
-                        <span id="password-error" class="error text-danger" for="input-password">{{ $errors->first('password') }}</span>
-                      @endif
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <label class="col-md-3 col-form-label font-weight-bold" for="input-password-confirmation">{{ __('Confirm New Password') }}</label>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <input class="border pl-2 form-control" name="password_confirmation" id="input-password-confirmation" type="password" placeholder="{{ __('Confirm New Password') }}" value="" required />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer ml-auto mr-auto">
-                <button type="submit" class="btn btn-outline text-capitalize pb-2 pt-2">{{ __('Change password') }}</button>
+                <button type="submit" style="font-size:14px;" class="btn btn-outline-success text-capitalize pb-2 pt-2">{{ __('Update User') }}</button>
               </div>
             </div>
           </form>
