@@ -20,6 +20,7 @@
         </button>
         </div>
       </form> --}}
+      <span class="font-weight-bold">{{Auth::user()->name}}</span>
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
           <a class="nav-link" href="#pablo" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
