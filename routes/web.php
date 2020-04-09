@@ -30,6 +30,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'UserController', ['except' => ['show']]);
 	Route::post('user/updateStatus/{user}', 'UserController@updateStatus')->name('user.updateStatus');
 	Route::get('user/view-details/{id}', 'UserController@viewDetails')->name('user.viewDetails');
+	Route::get('user/edit/{id}', 'UserController@edit')->name('user.edit');
+	Route::put('user', ['as' => 'user.update', 'uses' => 'UserController@update']);
 	Route::post('user/assign-roles/{user}', 'UserController@saveAssignedRole')->name('user.saveAssignedRole');
 	Route::get('user/get-role/{id}', 'UserController@getUserRole')->name('user.getRole');
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);

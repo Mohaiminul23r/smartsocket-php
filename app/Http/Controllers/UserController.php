@@ -62,6 +62,18 @@ class UserController extends Controller
         return view('users.view_details', compact('user_data', 'device_data'));
         
     }
+
+    public function edit()
+    {
+        return view('users.edit');
+    }
+    public function update(Request $request)
+    {
+        auth()->user()->update($request->all());
+
+        return back()->withStatus(__('User successfully updated.'));
+    }
+
     public function updateStatus(Request $request, User $user){
         if($request->status != NULL){
             $user->status = $request->status;
