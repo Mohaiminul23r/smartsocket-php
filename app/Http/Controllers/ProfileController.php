@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordRequest;
 use Illuminate\Support\Facades\Hash;
@@ -26,21 +27,25 @@ class ProfileController extends Controller
      */
     public function update(ProfileRequest $request)
     {
-        if ($request->hasFile('image')) {
+        $profile_data = $request->all();
+        $current_user = Auth::user();
+        if ($request->hasFile('image')){
             $file =  $request->file('image');
-            $filename = imageName($file->getClientOriginalName(), 1, 'image');
-            $dir_image = $file->storeAs('uploads/images', $filename);
-            $data['image'] =  $dir_image;
-            
-            $oldPath = public_path() . '/' . $user->image;
-
-            if (file_exists($oldPath) && !is_dir($oldPath)) {
-                unlink($oldPath);
+            $filename = time().'.'.$file->getClientOriginalName();
+            $image_dir = $file->move('upload/profile_pics', $filename);
+            $oldPath = public_path() . '/' . $current_user->image;
+            if($current_user->image == null){
+                $profile_data['image'] =  $image_dir;
+            }elseif($current_user->image != null || file_exists($oldPath) == false){
+                if(file_exists($oldPath) && !is_dir($oldPath)){
+                    unlink($oldPath);
+                }
+                $profile_data['image'] =  $image_dir;
             }
         }
-        auth()->user()->update($request->all());
 
-        return back()->withStatus(__('Profile successfully updated.'));
+        $current_user->update($profile_data);
+        return back()->withStatus(__('Profile updated successfully.'));
     }
 
     /**
