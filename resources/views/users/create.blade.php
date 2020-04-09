@@ -12,15 +12,17 @@
               <div class="card-body col-md-10 offset-1">
                 <div class="row">
                   <div class="col-md-6">
-                    <label class="font-weight-bold mb-0 text-dark text-dark">{{ __('Name') }}</label>
+                    <label class="font-weight-bold mb-0 text-dark text-dark">{{ __('Name') }}<span class="ml-1 text-danger">*</span></label>
                     <div class="form-group">
-                      <input class="border pl-2 form-control" name="name" id="input-name" type="text" placeholder="{{ __('User Name') }}" required="true" aria-required="true"/>
+                      <input type="text" class="border pl-2 form-control" name="name"placeholder="{{ __('User Name') }}" required/>
+                      <span class="d-none help-block"></span>
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <label class="font-weight-bold mb-0 text-dark">{{ __('Email') }}</label>
+                    <label class="font-weight-bold mb-0 text-dark">{{ __('Email') }}<span class="ml-1 text-danger">*</span></label>
                     <div class="form-group">
-                      <input type="email" class="border pl-2 form-control" name="email" id="input-email" type="email" placeholder="{{ __('Email Address') }}" required />
+                      <input type="email" class="border pl-2 form-control" name="email" placeholder="{{ __('Email Address') }}" required/>
+                      <span class="d-none help-block"></span>
                     </div>
                   </div>
                 </div>
@@ -28,13 +30,15 @@
                   <div class="col-md-6">
                     <label class="font-weight-bold mb-0 text-dark">{{ __('Phone') }}</label>
                     <div class="form-group">
-                      <input class="border pl-2 form-control" name="phone" id="input-phone" type="text" placeholder="{{ __('Phone') }}" required="true"/>
+                      <input type="text" class="border pl-2 form-control" name="phone"placeholder="{{ __('Phone') }}" required/>
+                      <span class="d-none help-block"></span>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <label class="font-weight-bold mb-0 text-dark">{{ __('City') }}</label>
                     <div class="form-group">
-                      <input class="border pl-2 form-control" name="city" id="input-city" type="text" placeholder="{{ __('City') }}"/>
+                      <input type="text" class="border pl-2 form-control" name="city"placeholder="{{ __('City') }}"/>
+                      <span class="d-none help-block"></span>
                     </div>
                   </div>
                 </div>
@@ -42,13 +46,15 @@
                   <div class="col-md-6">
                     <label class="font-weight-bold mb-0 text-dark">{{ __('Country') }}</label>
                     <div class="form-group">
-                      <input class="border pl-2 form-control" name="country" id="input-country" type="text" placeholder="{{ __('Country') }}" value="Bangladesh"/>
+                      <input type="text" class="border pl-2 form-control" name="country"placeholder="{{ __('Country') }}" value="Bangladesh"/>
+                      <span class="d-none help-block"></span>
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <label class="font-weight-bold mb-0 text-dark">{{ __('Password') }}</label>
+                    <label class="font-weight-bold mb-0 text-dark">{{ __('Password') }}<span class="ml-1 text-danger">*</span></label>
                     <div class="form-group">
-                      <input type="Password" class="border pl-2 form-control" name="country" id="input-country" type="text" placeholder="{{ __('Enter Password') }}" required/>
+                      <input type="password" class="border pl-2 form-control" name="password"placeholder="{{ __('Enter Password') }}" required/>
+                      <span class="d-none help-block"></span>
                     </div>
                   </div>
                 </div>
@@ -75,7 +81,10 @@
          axios.post(''+utlt.siteUrl('user')+'', $('#user_create_form').serialize())
          .then(response => {
             showToast("Successfully Created. ");
-            $(document).find('#user_create_form').trigger("reset");            
+            $(document).find('#user_create_form').trigger("reset");
+            setTimeout(function(){
+            	window.location.replace(utlt.siteUrl('user'));
+            }, 500);           
          })
          .catch(error => {
             $.each(error.response.data.payload.errors, function(inputName, errors){

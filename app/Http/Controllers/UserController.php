@@ -55,7 +55,14 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+        $this->validate($request,[
+            'name' => 'required|string|max:255',
+            'city' => 'nullable',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|min:6',
+        ]);
+        $request['password'] = bcrypt($request->password);
+        $user = user::create($request->all());
     }
     public function destroy(User $user)
     {
