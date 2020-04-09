@@ -9,11 +9,11 @@
                         <h5 class="card-title ">User List</h5>
                     </div>
                     <div class="card-body">
-                          {{-- <div class="row">
-                            <div class="col-12 text-right">
-                              <a href="#" class="btn btn-sm btn-primary">Add user</a>
+                          <div class="row">
+                            <div class="col-12 text-left">
+                              <button id="user_create_btn" class="btn btn-sm btn-link btn-outline-primary text-capitalize ml-4 mb-3" style="font-size: 13px;">Add New User</button>
                             </div>
-                          </div> --}}
+                          </div>
                           @include('users.create_role_modal')
                           <div class="table-responsive">
                             <table id="userDatatable" class="table table-sm mt-3 mb-3 table-striped" style="width:100%;">
@@ -83,7 +83,7 @@ $(document).ready(function(){
                             '<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">'+
                                 '<button class="btn btn-link text-darker assign_role p-0 m-1" data-id="' + data +'"><i class="fas fa-user-times text-success m-2"></i>Assign Role</button><br>'+
                                 '<button class="btn btn-link text-darker view_btn p-0 m-1" data-id="' + data +'"><i class="fas fa-eye text-info m-2"></i> View</button><br>'+
-                                '<button class="btn btn-link text-darker edit_btn p-0 m-1" data-id="' + data +'"><i class="fas fa-eye text-info m-2"></i> Edit Info</button><br>'+
+                                '<button class="btn btn-link text-darker edit_btn p-0 m-1" data-id="' + data +'"><i class="fas m-2 fa-user-edit text-darker"></i> Edit User Info</button><br>'+
                                 '<button class="btn btn-link text-darker delete_btn p-0 m-1" data-id="' + data +'"><i class="fas fa-trash-alt m-2 text-danger"></i> Delete</button>'+
                             '</div>'+
                         '</div>';
@@ -100,11 +100,16 @@ $(document).ready(function(){
         processing: true,
     }); 
 
+    $(document).on('click', '#user_create_btn', function(){
+        window.location.replace(utlt.siteUrl('user/create'));
+    });
+
     $(document).on('click', '.delete_btn', function(){
         let url = 'user/'+($(this).attr('data-id'));
         utlt.Delete(url,'#userDatatable');
     });
-     $(document).on('click', '.edit_btn', function(){
+
+    $(document).on('click', '.edit_btn', function(){
         let u_id = $(this).attr('data-id');
         window.location.replace(utlt.siteUrl('user/edit/'+u_id+''));
     });

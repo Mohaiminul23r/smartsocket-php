@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'profile', 'titlePage' => __('User Profile')])
+@extends('layouts.app', ['activePage' => 'Profile', 'titlePage' => __('User Profile')])
 @section('content')
   <div class="content">
     <div class="container-fluid">
@@ -15,7 +15,7 @@
                 @if (session('status'))
                   <div class="row">
                     <div class="col-sm-12">
-                      <div class="alert alert-success">
+                      <div class="alert alert-success" id="success_edit_msg">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                           <i class="material-icons">close</i>
                         </button>
@@ -155,3 +155,10 @@
     </div>
   </div>
 @endsection
+@push('js')
+<script type="text/javascript">
+    $(document).ready(function(){
+      $(document).find('#success_edit_msg').delay(1200).fadeOut(500);
+    });
+  </script>
+@endpush

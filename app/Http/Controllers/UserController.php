@@ -48,6 +48,15 @@ class UserController extends Controller
         return view('users.index',compact('roles'));
     }
 
+    public function create(Request $request)
+    {
+        return view('users.create');
+    }
+
+    public function store(Request $request)
+    {
+        dd($request->all());
+    }
     public function destroy(User $user)
     {
         $device->delete();
