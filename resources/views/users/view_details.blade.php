@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'User Details', 'titlePage' => __('User Details')])
+@extends('layouts.app', ['activePage' => 'Users', 'titlePage' => __('User Details')])
 @section('content')
 <div class="content p-2">
   <div class="container-fluid">

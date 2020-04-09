@@ -47,22 +47,22 @@
           </ul>
         </div>
       </li>
-      <li class="nav-item {{ ($activePage == 'profile' || $activePage == 'User List') ? ' active' : '' }}">
+      <li class="nav-item {{ ($activePage == 'profile' || $activePage == 'Users' || $activePage == 'Roles') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#userManagement" aria-expanded="true">
           <i class="fas fa-user-cog"></i>
           <p>{{ __('User Management') }}
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse" id="userManagement">
+        <div class="collapse{{($activePage=='Profile' || $activePage=='Users' || $activePage=='Roles')?'show':'' }}" id="userManagement">
           <ul class="nav">
-            <li class="nav-item{{ $activePage == 'profile' ? ' active' : '' }}">
+            <li class="nav-item{{ $activePage == 'Profile' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('profile.edit') }}">
                 <span class="sidebar-mini"><i class="fas fa-user-edit"></i></span>
                 <span class="sidebar-normal">{{ __('User profile') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'User List' ? ' active' : '' }}">
+            <li class="nav-item{{ $activePage == 'Users' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('user.index') }}">
                 <span class="sidebar-mini"><i class="fas fa-users-class"></i></span>
                 <span class="sidebar-normal"> {{ __('User List') }} </span>
