@@ -5,6 +5,15 @@
       <div class="row">
         <div class="col-md-12">
           <form method="post" action="{{ route('user.update') }}" autocomplete="off" class="form-horizontal">
+            @if ($errors->any())
+            <div class="alert alert-danger">
+              <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+              </ul>
+            </div>
+            @endif
             @csrf
             @method('put')
             <div class="card">
@@ -28,7 +37,7 @@
                   <div class="col-md-6">
                     <label class="font-weight-bold mb-0">{{ __('Name') }}</label>
                     <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                      <input class="border pl-2 form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="input-name" type="text" placeholder="{{ __('Name') }}" value="{{ old('name', auth()->user()->name) }}" required="true" aria-required="true"/>
+                      <input class="border pl-2 form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="input-name" type="text" placeholder="{{ __('Name') }}" value="{{ old('name', auth()->user()->name) }}">
                       @if ($errors->has('name'))
                         <span id="name-error" class="error text-danger" for="input-name">{{ $errors->first('name') }}</span>
                       @endif
@@ -37,7 +46,7 @@
                   <div class="col-md-6">
                     <label class="font-weight-bold mb-0">{{ __('Email') }}</label>
                     <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
-                      <input class="border pl-2 form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" id="input-email" type="email" placeholder="{{ __('Email') }}" value="{{ old('email', auth()->user()->email) }}" required />
+                      <input class="border pl-2 form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" id="input-email" type="email" placeholder="{{ __('Email') }}" value="{{ old('email', auth()->user()->email) }}"/>
                       @if ($errors->has('email'))
                         <span id="email-error" class="error text-danger" for="input-email">{{ $errors->first('email') }}</span>
                       @endif
@@ -48,7 +57,7 @@
                   <div class="col-md-6">
                     <label class="font-weight-bold mb-0">{{ __('Phone') }}</label>
                     <div class="form-group{{ $errors->has('phone') ? ' has-danger' : '' }}">
-                      <input class="border pl-2 form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" id="input-phone" type="text" placeholder="{{ __('Phone') }}" value="{{ old('name', auth()->user()->phone) }}" required="true" aria-required="true"/>
+                      <input class="border pl-2 form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" id="input-phone" type="text" placeholder="{{ __('Phone') }}" value="{{ old('name', auth()->user()->phone) }}" aria-required="true"/>
                       @if ($errors->has('phone'))
                         <span id="phone-error" class="error text-danger" for="input-phone">{{ $errors->first('phone') }}</span>
                       @endif
@@ -57,7 +66,7 @@
                   <div class="col-md-6">
                     <label class="font-weight-bold mb-0">{{ __('City') }}</label>
                     <div class="form-group{{ $errors->has('city') ? ' has-danger' : '' }}">
-                      <input class="border pl-2 form-control{{ $errors->has('city') ? ' is-invalid' : '' }}" name="city" id="input-city" type="text" placeholder="{{ __('City') }}" value="{{ old('city', auth()->user()->city) }}" required />
+                      <input class="border pl-2 form-control{{ $errors->has('city') ? ' is-invalid' : '' }}" name="city" id="input-city" type="text" placeholder="{{ __('City') }}" value="{{ old('city', auth()->user()->city) }}" />
                       @if ($errors->has('city'))
                         <span id="city-error" class="error text-danger" for="input-city">{{ $errors->first('city') }}</span>
                       @endif
@@ -68,7 +77,7 @@
                   <div class="col-md-6">
                     <label class="font-weight-bold mb-0">{{ __('Country') }}</label>
                     <div class="form-group{{ $errors->has('country') ? ' has-danger' : '' }}">
-                      <input class="border pl-2 form-control{{ $errors->has('country') ? ' is-invalid' : '' }}" name="country" id="input-country" type="text" placeholder="{{ __('Countrt') }}" value="{{ old('country', auth()->user()->country) }}" required />
+                      <input class="border pl-2 form-control{{ $errors->has('country') ? ' is-invalid' : '' }}" name="country" id="input-country" type="text" placeholder="{{ __('Countrt') }}" value="{{ old('country', auth()->user()->country) }}" />
                       @if ($errors->has('country'))
                         <span id="country-error" class="error text-danger" for="input-country">{{ $errors->first('country') }}</span>
                       @endif

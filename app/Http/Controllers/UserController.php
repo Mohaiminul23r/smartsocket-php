@@ -78,6 +78,14 @@ class UserController extends Controller
     }
     public function update(Request $request)
     {
+         $request->validate([
+        'name' => 'required',
+        'email' => 'required',
+        'phone' => 'required',
+        'city' => 'required',
+        'country' => 'required',
+
+    ]);
         auth()->user()->update($request->all());
 
         return back()->withStatus(__('User successfully updated.'));
