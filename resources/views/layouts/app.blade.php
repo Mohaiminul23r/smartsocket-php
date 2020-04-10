@@ -11,17 +11,20 @@
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ asset('plugins/css/font-awesome.min.css') }}">
     <!-- CSS Files -->
     <link href="{{ asset('material/css/material-dashboard.css?v=2.1.1') }}" rel="stylesheet" />
+    {{-- custom css for override design --}}
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="{{ asset('material/demo/demo.css') }}" rel="stylesheet" />
+    
     {{-- plugin css --}}
     <link href="{{ asset('/css/toastr.min.css') }}" rel="stylesheet" />
     <link href="{{asset('fonts/fontawesome-pro-5.12.0-web/css/all.css')}}" rel="stylesheet" >
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/b-1.6.1/fc-3.3.0/fh-3.1.6/r-2.2.3/rg-1.1.1/sl-1.3.1/datatables.min.css" />
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+    <link href="{{ asset('plugins/css/select2.min.css') }}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/css/datatables.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/css/datetimepicker.min.css') }}">
     </head>
     <body class="{{ $class ?? '' }}">
         @auth()
@@ -34,7 +37,7 @@
             @include('layouts.page_templates.guest')
         @endguest
         
-        <div class="fixed-plugin">
+        {{-- <div class="fixed-plugin">
           <div class="dropdown show-dropdown">
             <a href="#" data-toggle="dropdown">
               <i class="fa fa-cog fa-2x"> </i>
@@ -78,7 +81,7 @@
               </li>
             </ul>
           </div>
-        </div>
+        </div> --}}
         <!--   Core JS Files   -->
         <script>
           /********************************/
@@ -138,11 +141,11 @@
        {{--  plugings --}}
         <script src="{{ asset('js/toastr.min.js') }}"></script>
         <script src="{{ asset('js/spartan-multi-image-picker-min.js') }}"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/b-1.6.1/fc-3.3.0/fh-3.1.6/r-2.2.3/rg-1.1.1/sl-1.3.1/datatables.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
-        <script src="https://cdn.ckeditor.com/ckeditor5/17.0.0/classic/ckeditor.js"></script> 
+        <script type="text/javascript" src="{{ asset('plugins/js/datatables.min.js') }}"></script>
+        <script src="{{ asset('plugins/js/axios.min.js') }}"></script>
+        <script src="{{ asset('plugins/js/select2.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('plugins/js/datetimepicker.full.min.js') }}"></script>
+        <script src="{{ asset('plugins/js/ckeditor.js') }}"></script> 
          <!-- Custom Js -->
         <script src="{{ asset('js/custom.js') }}"></script>
         @stack('js')

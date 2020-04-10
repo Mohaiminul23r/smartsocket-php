@@ -6,7 +6,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-primary p-2">
-            <h6 class="card-title">Add/Edit Device</h6>
+            <h5 class="card-title">Add/Edit Device</h5>
           </div>
           <div class="card-body">
             @include('devices.form')
@@ -16,11 +16,11 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-primary p-2">
-            <h6 class="card-title mt-0">List of all Devices</h6>
+            <h5 class="card-title mt-0">List of all Devices</h5>
           </div>
           <div class="card-body">
             <div class="table-responsive">
-              <div class="container border">
+              <div class="container">
                	<table id="deviceDatatable" class="table table-sm mt-3 mb-3 table-striped" style="width:100%;">
                	</table>
               </div>

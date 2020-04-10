@@ -6,7 +6,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-primary p-2">
-            <h6 class="card-title">Add/Edit Types</h6>
+            <h5 class="card-title">Add/Edit Types</h5>
           </div>
           <div class="card-body">
              @include('types.form')
@@ -16,10 +16,10 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-primary p-2">
-            <h6 class="card-title mt-0">List of all Types</h6>
+            <h5 class="card-title mt-0">List of all Types</h5>
           </div>
           <div class="card-body">
-            <div class="container border">
+            <div class="container">
                 <div class="table-responsive">
                     <table id="typeDatatable" class="table table-sm mt-3 mb-3 table-striped" style="width:100%;">
                     </table>
@@ -61,12 +61,11 @@ $(document).ready(function(){
             },
             {title : 'Type Name', data: "typeName", name: 'name', 'width':'20%'},
             {title : 'Description', data: "description", name: 'description','width':'30%'},
-            {title : 'Created By', data: "created_by", name: 'created_by','width':'15%'},
             {title : 'Created By', data: "userName", name: 'created_by','width':'15%'},
 
             {
                 'title' : 'Status',
-                'width':'15%',
+                'width':'20%',
                 'render' : function(data, type, row, ind){
                    $status = '<div class="togglebutton">'+
                               ' <label>'+
