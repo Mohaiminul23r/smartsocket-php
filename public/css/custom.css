@@ -16,3 +16,7 @@ div.dataTables_wrapper div.dataTables_filter input {
 select + .select2-container {
   width: 100% !important;
 }
+
+.page-item.active .page-link {
+    border-radius: 20px;
+}
