@@ -6,15 +6,20 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-primary p-2">
-            <h6 class="card-title">User Details</h6>
+            <h5 class="card-title">User Details</h5>
           </div>
           <div class="card-body">
           	<div class="container border">
           		<div class="row">
 			  <div class="col-md-4" style="text-align: right;">
-			    <img src="{{asset('image/Headshot-Placeholder-1.png')}}" alt="Profile Picture" class="w-50 img-thumbnail mt-4">
+			  	@if($user_data->image == null || file_exists($user_data->image) == false)
+			    	<img src="{{asset('image/Headshot-Placeholder-1.png')}}" alt="Profile Picture" class="w-50 img-thumbnail mt-5">
+			    @elseif(($user_data->image != null && file_exists($user_data->image) == true))
+			    	<img src="{{url($user_data->image)}}" alt="Profile Picture" class="w-50 img-thumbnail mt-5">
+			    @endif
 			  </div>
 			  <div class="col-md-8">
+			  	<a type="button" href="{{route('user.index')}}" style="font-size:14px;" class="btn btn-sm btn-outline pr-4 pl-4 pull-right mr-2 text-capitalize mt-2 mb-2 btn-link">{{ __(' Go Back') }}</a>
 			   	<table class="table table-striped mt-2 table-bordered" width="100%">
                   <tbody>
                     <tr>
@@ -50,9 +55,13 @@
                     <tr>
                        <th width="20%" class="border-0 p-1 pl-2">Assigned Role:</th>
                        <td width="80%" class="border-0 p-1">
-                       	@foreach($user_data->roles as $role)
-                       		<span class="badge badge-info">{{$role->name}}</span><span class="pl-2 font-weight-bold">{{$role->description}}</span>
-                       	@endforeach
+                       	@if($user_data->roles->isEmpty() != true)
+	                       	@foreach($user_data->roles as $role)
+	                       		<span class="badge badge-info">{{$role->name}}</span><span class="pl-2 font-weight-bold">{{$role->description}}</span>
+	                       	@endforeach
+                       	@elseif($user_data->roles->isEmpty() == true)
+                       		<span class="pl-2 font-weight-bold text-warning">Role not Assigned</span>
+                       	@endif
                        </td>
                     </tr>
                    </tbody>
@@ -86,30 +95,36 @@
 			                  	</tr>
 			              	</thead>
 			                 <tbody>
-			                 	@php
-			                 		$i = 1;
-			                 	@endphp
-			                 	@foreach($device_data->devices as $device)
+			                 	@if($device_data->devices->isEmpty() != true)
+				                 	@php
+				                 		$i = 1;
+				                 	@endphp
+				                 	@foreach($device_data->devices as $device)
+				                 		<tr>
+				                 			<td class="pt-1 pb-1">
+				                 				@php
+				                 					echo $i;
+				                 				@endphp
+				                 			</td>
+				                 			<td class="pt-1 pb-1">{{$device->espId}}</td>
+				                 			<td class="pt-1 pb-1">{{$device->name}}</td>
+				                 			<td class="pt-1 pb-1">{{$device->type->name}}</td>
+				                 			<td class="pt-1 pb-1">
+				                 				@foreach($device->ports as $port)
+				                 				<span class="badge badge-warning">{{$port->name}}</span>
+				                 				@endforeach
+				                 			</td>
+				                 			<td class="pt-1 pb-1">{{strip_tags($device->description)}}</td>
+				                 		</tr>
+				                 		@php
+				                 			$i++;
+				                 		@endphp
+				                 	@endforeach
+			                 	@elseif($device_data->devices->isEmpty() == true)
 			                 		<tr>
-			                 			<td class="pt-1 pb-1">
-			                 				@php
-			                 					echo $i;
-			                 				@endphp
-			                 			</td>
-			                 			<td class="pt-1 pb-1">{{$device->espId}}</td>
-			                 			<td class="pt-1 pb-1">{{$device->name}}</td>
-			                 			<td class="pt-1 pb-1">{{$device->type->name}}</td>
-			                 			<td class="pt-1 pb-1">
-			                 				@foreach($device->ports as $port)
-			                 				<span class="badge badge-warning">{{$port->name}}</span>
-			                 				@endforeach
-			                 			</td>
-			                 			<td class="pt-1 pb-1">{{strip_tags($device->description)}}</td>
+			                 			<td class="pt-1 pb-1 text-center" colspan="6">No device availabe for this User.</td>
 			                 		</tr>
-			                 		@php
-			                 			$i++;
-			                 		@endphp
-			                 	@endforeach
+			                 	@endif
 			                 </tbody>
 		                </table>
 				      </div>
@@ -132,36 +147,42 @@
 			                 	</tr>
 			                   	<tr>
 			                   		<th width="15%" class="pt-1 pb-1 font-weight-bold" style="font-size:15px;">SL</th>
-			                   		<th width="30%" class="pt-1 pb-1 font-weight-bold" style="font-size:15px;">IMEI No</th>
+			                   		<th width="30%" class="pt-1 pb-1 font-weight-bold" style="font-size:15px;">UUID</th>
 			                   		<th width="35%" class="pt-1 pb-1 font-weight-bold" style="font-size:15px;">User Name</th>
 			                   		<th width="20%" class="pt-1 pb-1 font-weight-bold" style="font-size:15px;">Status</th>
 			                  	</tr>
 			              	</thead>
 			                 <tbody>
-			                 	@php
-			                 		$i = 1;
-			                 	@endphp
-			                 	@foreach($user_data->mobiles as $mobile)
+			                 	@if($device_data->mobiles->isEmpty() != true)
+				                 	@php
+				                 		$i = 1;
+				                 	@endphp
+				                 	@foreach($user_data->mobiles as $mobile)
+				                 		<tr>
+				                 			<td class="pt-1 pb-1">
+				                 				@php
+				                 					echo $i;
+				                 				@endphp
+				                 			</td>
+				                 			<td class="pt-1 pb-1">{{$mobile->uuid}}</td>
+				                 			<td class="pt-1 pb-1">{{$user_data->name}}</td>
+				                 			<td class="pt-1 pb-1">
+				                 				@if($mobile->status == 1)
+				                 				<span class="badge badge-success">Active</span>
+				                 				@elseif($mobile->status == 0)
+				                 				<span class="badge badge-danger">Not Active</span>
+				                 				@endif
+				                 			</td>
+				                 		</tr>
+				                 		@php
+				                 			$i++;
+				                 		@endphp
+				                 	@endforeach
+			                 	@elseif($device_data->mobiles->isEmpty() == true)
 			                 		<tr>
-			                 			<td class="pt-1 pb-1">
-			                 				@php
-			                 					echo $i;
-			                 				@endphp
-			                 			</td>
-			                 			<td class="pt-1 pb-1">{{$mobile->imei}}</td>
-			                 			<td class="pt-1 pb-1">{{$user_data->name}}</td>
-			                 			<td class="pt-1 pb-1">
-			                 				@if($mobile->status == 1)
-			                 				<span class="badge badge-success">Active</span>
-			                 				@elseif($mobile->status == 0)
-			                 				<span class="badge badge-danger">Not Active</span>
-			                 				@endif
-			                 			</td>
+			                 			<td class="pt-1 pb-1 text-center" colspan="6">No Mobile device is availabe for this User.</td>
 			                 		</tr>
-			                 		@php
-			                 			$i++;
-			                 		@endphp
-			                 	@endforeach
+			                 	@endif
 			                 </tbody>
 		                </table>
 				      </div>

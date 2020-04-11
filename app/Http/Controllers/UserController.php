@@ -71,31 +71,27 @@ class UserController extends Controller
 
     public function viewDetails($id)
     {
-        $user_data = User::findOrFail($id)
+        $user_data = User::where('id', $id)
                     ->with('mobiles','roles')
                     ->get()->first();
+        //dd($user_data);
         $device_data = User::where('id',$id)->with('devices.type','devices.ports')->get()->first();
         return view('users.view_details', compact('user_data', 'device_data'));
         
     }
 
-    public function edit()
+    public function edit(User $user)
     {
-        return view('users.edit');
+        return view('users.edit',compact('user'));
     }
-    public function update(Request $request)
+
+    public function update(Request $request, User $user)
     {
-         $request->validate([
-        'name' => 'required',
-        'email' => 'required',
-        'phone' => 'required',
-        'city' => 'required',
-        'country' => 'required',
-
-    ]);
-        auth()->user()->update($request->all());
-
-        return back()->withStatus(__('User successfully updated.'));
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,'.$user->id
+        ]);
+        $user->update($request->all());
     }
 
     public function updateStatus(Request $request, User $user){

@@ -82,7 +82,7 @@ $(document).ready(function(){
                             '</a>'+
                             '<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">'+
                                 '<button class="btn btn-link text-darker assign_role p-0 m-1" data-id="' + data +'"><i class="fas fa-user-times text-success m-2"></i>Assign Role</button><br>'+
-                                '<button class="btn btn-link text-darker view_btn p-0 m-1" data-id="' + data +'"><i class="fas fa-eye text-info m-2"></i> View</button><br>'+
+                                '<button class="btn btn-link text-darker view_btn p-0 m-1" data-id="' + data +'"><i class="fas fa-eye text-info m-2"></i> View Details</button><br>'+
                                 '<button class="btn btn-link text-darker edit_btn p-0 m-1" data-id="' + data +'"><i class="fas m-2 fa-user-edit text-darker"></i> Edit User Info</button><br>'+
                                 '<button class="btn btn-link text-darker delete_btn p-0 m-1" data-id="' + data +'"><i class="fas fa-trash-alt m-2 text-danger"></i> Delete</button>'+
                             '</div>'+
@@ -111,7 +111,7 @@ $(document).ready(function(){
 
     $(document).on('click', '.edit_btn', function(){
         let u_id = $(this).attr('data-id');
-        window.location.replace(utlt.siteUrl('user/edit/'+u_id+''));
+        window.location.replace(utlt.siteUrl('user/'+u_id+'/edit'));
     });
 
     $(document).on('click', '.view_btn', function(){
