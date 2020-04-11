@@ -6,7 +6,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-primary p-2">
-            <h6 class="card-title mt-0">List of all Roles</h6>
+            <h5 class="card-title mt-0">List of all Roles</h5>
           </div>
           <div class="card-body">
           	<div class="row">
