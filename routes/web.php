@@ -55,6 +55,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/role/get-data-json', "RoleController@getDataForDataTable")->name('roles.getDataForDataTable');
 
 	//for permission routes
-	Route::resource('permissions', 'PermissionController');
+	//Route::resource('permissions', 'PermissionController');
 });
 

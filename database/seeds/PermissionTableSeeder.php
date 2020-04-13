@@ -11,6 +11,13 @@ class PermissionTableSeeder extends Seeder
      */
     public function run()
     {
+        //dashboard
+        $Permissions = new \App\Models\Permission();
+        $Permissions->name="home";
+        $Permissions->description="View dashboard";
+        $Permissions->module="dashboard";
+        $Permissions->Save();
+
     	//type module
         $Permissions = new \App\Models\Permission();
         $Permissions->name="types.index";
@@ -207,6 +214,18 @@ class PermissionTableSeeder extends Seeder
         $Permissions->module="user";
         $Permissions->Save();
 
+        $Permissions = new \App\Models\Permission();
+        $Permissions->name="users.getRole";
+        $Permissions->description="View existing roles";
+        $Permissions->module="user";
+        $Permissions->Save();
+
+        $Permissions = new \App\Models\Permission();
+        $Permissions->name="user.saveAssignedRole";
+        $Permissions->description="Assign and Save role";
+        $Permissions->module="user";
+        $Permissions->Save();
+
         //role module
         $Permissions = new \App\Models\Permission();
         $Permissions->name="roles.index";
@@ -256,47 +275,78 @@ class PermissionTableSeeder extends Seeder
         $Permissions->module="role";
         $Permissions->Save();
 
-         //permission module
         $Permissions = new \App\Models\Permission();
-        $Permissions->name="permissions.index";
-        $Permissions->description="View permission page";
-        $Permissions->module="permission";
+        $Permissions->name="savePermission";
+        $Permissions->description="Save Permissions";
+        $Permissions->module="role";
         $Permissions->Save();
 
         $Permissions = new \App\Models\Permission();
-        $Permissions->name="permissions.create";
-        $Permissions->description="View permission create page";
-        $Permissions->module="permission";
+        $Permissions->name="saveRole";
+        $Permissions->description="Save Role";
+        $Permissions->module="role";
+        $Permissions->Save();
+
+        //  //permission module
+        // $Permissions = new \App\Models\Permission();
+        // $Permissions->name="permissions.index";
+        // $Permissions->description="View permission page";
+        // $Permissions->module="permission";
+        // $Permissions->Save();
+
+        // $Permissions = new \App\Models\Permission();
+        // $Permissions->name="permissions.create";
+        // $Permissions->description="View permission create page";
+        // $Permissions->module="permission";
+        // $Permissions->Save();
+
+        // $Permissions = new \App\Models\Permission();
+        // $Permissions->name="permissions.store";
+        // $Permissions->description="Save permission data";
+        // $Permissions->module="permission";
+        // $Permissions->Save();
+
+        // $Permissions = new \App\Models\Permission();
+        // $Permissions->name="permissions.edit";
+        // $Permissions->description="View edit page";
+        // $Permissions->module="permission";
+        // $Permissions->Save();
+
+        // $Permissions = new \App\Models\Permission();
+        // $Permissions->name="permissions.update";
+        // $Permissions->description="Update permission";
+        // $Permissions->module="permission";
+        // $Permissions->Save();
+
+        // $Permissions = new \App\Models\Permission();
+        // $Permissions->name="permissions.show";
+        // $Permissions->description="Show permission details";
+        // $Permissions->module="permission";
+        // $Permissions->Save();
+
+        // $Permissions = new \App\Models\Permission();
+        // $Permissions->name="permissions.destroy";
+        // $Permissions->description="Delete permission";
+        // $Permissions->module="permission";
+        // $Permissions->Save();
+
+        //profile module
+        $Permissions = new \App\Models\Permission();
+        $Permissions->name="profile.edit";
+        $Permissions->description="Show profile page";
+        $Permissions->module="profile";
         $Permissions->Save();
 
         $Permissions = new \App\Models\Permission();
-        $Permissions->name="permissions.store";
-        $Permissions->description="Save permission data";
-        $Permissions->module="permission";
+        $Permissions->name="profile.update";
+        $Permissions->description="Update profile info.";
+        $Permissions->module="profile";
         $Permissions->Save();
 
         $Permissions = new \App\Models\Permission();
-        $Permissions->name="permissions.edit";
-        $Permissions->description="View edit page";
-        $Permissions->module="permission";
-        $Permissions->Save();
-
-        $Permissions = new \App\Models\Permission();
-        $Permissions->name="permissions.update";
-        $Permissions->description="Update permission";
-        $Permissions->module="permission";
-        $Permissions->Save();
-
-        $Permissions = new \App\Models\Permission();
-        $Permissions->name="permissions.show";
-        $Permissions->description="Show permission details";
-        $Permissions->module="permission";
-        $Permissions->Save();
-
-        $Permissions = new \App\Models\Permission();
-        $Permissions->name="permissions.destroy";
-        $Permissions->description="Delete permission";
-        $Permissions->module="permission";
+        $Permissions->name="profile.password";
+        $Permissions->description="Change password";
+        $Permissions->module="profile";
         $Permissions->Save();
     }
 }

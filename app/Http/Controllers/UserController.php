@@ -74,7 +74,6 @@ class UserController extends Controller
         $user_data = User::where('id', $id)
                     ->with('mobiles','roles')
                     ->get()->first();
-        //dd($user_data);
         $device_data = User::where('id',$id)->with('devices.type','devices.ports')->get()->first();
         return view('users.view_details', compact('user_data', 'device_data'));
         
