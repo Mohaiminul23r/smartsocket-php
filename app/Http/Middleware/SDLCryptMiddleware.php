@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use SDLCrypt;
-
+use Log;
 class SDLCryptMiddleware
 {
     /**
@@ -16,6 +16,9 @@ class SDLCryptMiddleware
      */
     public function handle($request, Closure $next)
     {
+        if(env('LOG_PRINT',false)){
+            Log::channel('sdl_log')->info(json_encode($request->all()));
+        }
         if(env('SDLCrypt_ENABLE', false) == true){
             $response = $next($request);
             $data = $response->getData();
