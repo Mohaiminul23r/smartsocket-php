@@ -24,6 +24,6 @@ class DeviceTableSeeder extends Seeder
 			]
 		);
 
-        $device->ports()->attach([1,2]);
+        $device->ports()->attach([1,2,3]);
     }
 }
